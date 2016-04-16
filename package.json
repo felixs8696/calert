@@ -1,0 +1,21 @@
+{
+  "name": "calert",
+  "private": true,
+  "scripts": {
+    "start": "meteor run"
+  },
+  "dependencies": {
+    "angular": "^1.5.3",
+    "angular-animate": "^1.5.3",
+    "angular-meteor": "^1.3.10",
+<<<<<<< HEAD
+    "angular-moment": "^1.0.0-beta.5",
+=======
+>>>>>>> e1b330958d0848bcbb9a00161e7a13776a9a1334
+    "angular-sanitize": "^1.5.3",
+    "angular-ui-router": "^0.2.18",
+    "ionic-scripts": "0.0.1",
+    "meteor-node-stubs": "~0.2.0",
+    "moment": "^2.12.0"
+  }
+}
