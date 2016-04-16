@@ -38,7 +38,6 @@ export default class RoutesConfig extends Config {
       }
     })
 
-<<<<<<< HEAD
     .state('app.chats', {
       url: '/chats',
       views: {
@@ -59,8 +58,6 @@ export default class RoutesConfig extends Config {
       }
     })
 
-=======
->>>>>>> e1b330958d0848bcbb9a00161e7a13776a9a1334
     .state('app.single', {
       url: '/playlists/:playlistId',
       views: {

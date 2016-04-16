@@ -20,8 +20,5 @@ insecure                # Allow all DB writes from clients (for prototyping)
 angular-templates
 pbastowski:angular-babel
 dab0mb:ionic-assets
-<<<<<<< HEAD
 fourseven:scss
 check
-=======
->>>>>>> e1b330958d0848bcbb9a00161e7a13776a9a1334
