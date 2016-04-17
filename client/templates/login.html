@@ -9,12 +9,12 @@
     <form ng-submit="vm.doLogin()">
       <div class="list">
         <label class="item item-input">
-          <span class="input-label">Username</span>
-          <input type="text" ng-model="loginData.username">
+          <span class="input-label">Email</span>
+          <input type="text" ng-model="vm.credentials.email">
         </label>
         <label class="item item-input">
           <span class="input-label">Password</span>
-          <input type="password" ng-model="loginData.password">
+          <input type="password" ng-model="vm.credentials.password">
         </label>
         <label class="item">
           <button class="button button-block button-positive" type="submit">Log in</button>

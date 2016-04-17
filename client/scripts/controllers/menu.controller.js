@@ -3,7 +3,8 @@ import { Controller } from '../entities';
 export default class MenuCtrl extends Controller {
   constructor() {
     super(...arguments);
-    this.loginData = {};
+    this.credentials = {};
+    this.$reactive(this).attach(this.$scope);
   }
 
   login() {
@@ -16,13 +17,24 @@ export default class MenuCtrl extends Controller {
 
   // Perform the login action when the user submits the login form
   doLogin = function() {
-    console.log('Doing login', this.loginData);
+    console.log('Doing login', this.credentials);
     // Simulate a login delay. Remove this and replace with your login
     // code if using a login system
-    this.$timeout(() => {
-      this.closeLogin();
-    }, 1000);
+    Meteor.loginWithPassword(this.credentials.email, this.credentials.password,
+      this.$bindToContext((err) => {
+        if (err) {
+          this.error = err;
+          console.log(err);
+        } else {
+          this.closeLogin();
+          this.$state.go('chats');
+        }
+      })
+    );
+    // this.$timeout(() => {
+    //   this.closeLogin();
+    // }, 1000);
   };
 }
 
-MenuCtrl.$inject = ['Login', '$timeout'];
+MenuCtrl.$inject = ['Login', '$timeout', '$reactive', '$scope'];

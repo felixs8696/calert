@@ -23,6 +23,7 @@ import InputDirective from '../directives/input.directive';
 const App = angular.module('starter', [
   'angular-meteor',
   'angularMoment',
+  'accounts.ui',
   'ionic'
 ]);
 
