@@ -20,7 +20,7 @@ import InputDirective from '../directives/input.directive';
 // Modules
 
 // App
-const App = angular.module('starter', [
+const App = angular.module('calert', [
   'angular-meteor',
   'angularMoment',
   'accounts.ui',
@@ -47,5 +47,5 @@ else {
 }
 
 function onReady() {
-  angular.bootstrap(document, ['starter']);
+  angular.bootstrap(document, ['calert']);
 }
