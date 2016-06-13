@@ -1,7 +1,7 @@
 import { Controller } from '../entities';
 
 export default class PlaylistsCtrl extends Controller {
-  constructor($scope) {
+  constructor($scope, $log) {
     super(...arguments);
 
     this.playlists = [
@@ -12,7 +12,23 @@ export default class PlaylistsCtrl extends Controller {
       { title: 'Rap', id: 5 },
       { title: 'Cowbell', id: 6 }
     ];
+    var watchId, options;
+    function success(position) {
+      console.log(position);
+    }
+
+    function error(err) {
+      $log.error(err);
+    }
+
+    options = {
+      enableHighAccuracy: false,
+      timeout: 5000,
+      maximumAge: 0
+    };
+
+    watchId = navigator.geolocation.watchPosition(success, error, options);
   }
 }
 
-PlaylistsCtrl.$inject = ['$scope'];
+PlaylistsCtrl.$inject = ['$scope', '$log'];
