@@ -16,10 +16,7 @@ export default class MenuCtrl extends Controller {
   }
 
   // Perform the login action when the user submits the login form
-  doLogin = function() {
-    console.log('Doing login', this.credentials);
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
+  doLogin() {
     Meteor.loginWithPassword(this.credentials.email, this.credentials.password,
       this.$bindToContext((err) => {
         if (err) {
@@ -31,9 +28,6 @@ export default class MenuCtrl extends Controller {
         }
       })
     );
-    // this.$timeout(() => {
-    //   this.closeLogin();
-    // }, 1000);
   };
 }
 

@@ -10,6 +10,16 @@ export default class RoutesConfig extends Config {
       controller: 'MenuCtrl as vm'
     })
 
+    .state('app.login', {
+      url: '/login',
+      views: {
+        'menuContent': {
+          templateUrl: 'client/templates/login.html',
+          controller: 'LoginCtrl as vm'
+        }
+      }
+    })
+
     .state('app.search', {
       url: '/search',
       views: {
@@ -28,12 +38,33 @@ export default class RoutesConfig extends Config {
         }
       })
 
-    .state('app.playlists', {
-      url: '/playlists',
+    .state('app.map', {
+      url: '/map',
       views: {
         'menuContent': {
-          templateUrl: 'client/templates/playlists.html',
-          controller: 'PlaylistsCtrl'
+          templateUrl: 'client/templates/map.html',
+          controller: 'MapCtrl as vm',
+          resolve: {
+            Map: ['$q', 'MeteorMapService', '$meteor', '$state', function($q, MeteorMapService, $meteor, $state) {
+              // Wait for the user to exist and resolve the map in order to enter state
+              var deferred = $q.defer();
+              $meteor.waitForUser().then((user) => {
+                MeteorMapService.getMap(user.profile.university, (map) => {
+                  deferred.resolve(map);
+                })
+              });
+        	    return deferred.promise;
+         	  }],
+            "currentUser": ["$meteor", function($meteor){
+              // Require the user to exist and have email validated to enter state
+              return $meteor.requireValidUser((user) => {
+                if (user.emails[0].verified) {
+                  return true;
+                }
+                return 'EMAIL_NOT_VALIDATED';
+              });
+            }]
+          }
         }
       }
     })
@@ -59,7 +90,7 @@ export default class RoutesConfig extends Config {
     })
 
     .state('app.single', {
-      url: '/playlists/:playlistId',
+      url: '/map/:playlistId',
       views: {
         'menuContent': {
           templateUrl: 'client/templates/playlist.html',
@@ -68,7 +99,7 @@ export default class RoutesConfig extends Config {
       }
     });
 
-    this.$urlRouterProvider.otherwise('/app/playlists');
+    this.$urlRouterProvider.otherwise('/app/map');
   }
 }
 

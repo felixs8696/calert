@@ -1,13 +1,13 @@
-<ion-modal-view ng-controller="MenuCtrl as vm">
-  <ion-header-bar>
+<ion-view view-title="Login">
+  <!-- <ion-header-bar>
     <h1 class="title">Login</h1>
     <div class="buttons">
       <button class="button button-clear" ng-click="vm.closeLogin()">Close</button>
     </div>
-  </ion-header-bar>
+  </ion-header-bar> -->
   <ion-content>
-    <form ng-submit="vm.doLogin()">
-      <div class="list">
+    <form ng-submit="vm.login()">
+      <div class="list list-inset">
         <label class="item item-input">
           <span class="input-label">Email</span>
           <input type="text" ng-model="vm.credentials.email">
@@ -16,10 +16,8 @@
           <span class="input-label">Password</span>
           <input type="password" ng-model="vm.credentials.password">
         </label>
-        <label class="item">
-          <button class="button button-block button-positive" type="submit">Log in</button>
-        </label>
+        <button class="button button-block button-positive" type="submit">Log in</button>
       </div>
     </form>
   </ion-content>
-</ion-modal-view>
+</ion-view>

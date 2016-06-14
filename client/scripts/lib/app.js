@@ -6,13 +6,17 @@ import 'angular-moment';
 import 'angular-sanitize';
 import 'angular-ui-router';
 import 'ionic-scripts';
+import 'angular-simple-logger';
+import 'angular-google-maps';
 import Definer from '../definer';
 import RoutesConfig from '../routes';
 import MenuCtrl from '../controllers/menu.controller';
 import PlaylistCtrl from '../controllers/playlist.controller';
-import PlaylistsCtrl from '../controllers/playlists.controller';
+import MapCtrl from '../controllers/map.controller';
+import LoginCtrl from '../controllers/login.controller';
 import ChatsCtrl from '../controllers/chats.controller';
 import Login from '../services/login.service';
+import MeteorMapService from '../services/map.service'
 import DateFilter from '../filters/date.filter';
 import ChatCtrl from '../controllers/chat.controller';
 import InputDirective from '../directives/input.directive';
@@ -24,18 +28,28 @@ const App = angular.module('calert', [
   'angular-meteor',
   'angularMoment',
   'accounts.ui',
-  'ionic'
-]);
+  'ionic',
+  'nemLogging',
+  'uiGmapgoogle-maps'
+]).config(['uiGmapGoogleMapApiProvider',function(uiGmapGoogleMapApiProvider) {
+  uiGmapGoogleMapApiProvider.configure({
+      key: 'AIzaSyCS91b3IpVVqYikQ69nNdoz_Za9S98qt8A',
+      v: '3.24', //defaults to latest 3.X anyhow
+      libraries: 'geometry,visualization,places'
+  });
+}]);
 
 new Definer(App)
   .define(Login)
+  .define(MeteorMapService)
   .define(DateFilter)
   .define(InputDirective)
   .define(ChatsCtrl)
   .define(ChatCtrl)
+  .define(LoginCtrl)
   .define(MenuCtrl)
   .define(PlaylistCtrl)
-  .define(PlaylistsCtrl)
+  .define(MapCtrl)
   .define(RoutesConfig);
 
 // Startup
