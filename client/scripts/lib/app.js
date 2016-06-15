@@ -44,7 +44,7 @@ const App = angular.module('calert', [
   $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams){
   })
   $rootScope.$on('$stateChangeSuccess', function(e, toState, toParams, fromState, fromParams) {
-    if (toState.name == "app.login" && Meteor.user()) {
+    if (toState.name == "login" && Meteor.user()) {
       $state.go('app.main');
     }
     // if (toState.url == "/verify" && Meteor.user()) {
@@ -57,7 +57,7 @@ const App = angular.module('calert', [
     // Catch error thrown when $meteor.requireUser() is rejected, redirect back to home page
     switch(error) {
       case "AUTH_REQUIRED":
-        $state.go('app.login');
+        $state.go('login');
         break;
       // case "EMAIL_NOT_VALIDATED":
       //   $state.go('verify');

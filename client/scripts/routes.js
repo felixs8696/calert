@@ -10,18 +10,14 @@ export default class RoutesConfig extends Config {
       controller: 'MenuCtrl as vm'
     })
 
-    .state('app.login', {
+    .state('login', {
       url: '/login',
-      views: {
-        'menuContent': {
-          templateUrl: 'client/templates/login.html',
-          controller: 'LoginCtrl as vm',
-          resolve: {
-            "currentUser": ["$meteor", function($meteor){
-              return $meteor.waitForUser();
-            }]
-          }
-        }
+      templateUrl: 'client/templates/login.html',
+      controller: 'LoginCtrl as vm',
+      resolve: {
+        "currentUser": ["$meteor", function($meteor){
+          return $meteor.waitForUser();
+        }]
       }
     })
 
@@ -62,6 +58,15 @@ export default class RoutesConfig extends Config {
           templateUrl: 'client/templates/map.html',
           controller: 'MapCtrl as vm',
           resolve: {
+            "currentUser": ["$meteor", function($meteor){
+              // Require the user to exist and have email validated to enter state
+              return $meteor.requireValidUser((user) => {
+                if (user.emails[0].verified) {
+                  return true;
+                }
+                return 'EMAIL_NOT_VALIDATED';
+              });
+            }],
             Map: ['$q', 'MeteorMapService', '$meteor', '$state', function($q, MeteorMapService, $meteor, $state) {
               // Wait for the user to exist and resolve the map in order to enter state
               var deferred = $q.defer();
@@ -71,16 +76,7 @@ export default class RoutesConfig extends Config {
                 })
               });
         	    return deferred.promise;
-         	  }],
-            "currentUser": ["$meteor", function($meteor){
-              // Require the user to exist and have email validated to enter state
-              return $meteor.requireValidUser((user) => {
-                if (user.emails[0].verified) {
-                  return true;
-                }
-                return 'EMAIL_NOT_VALIDATED';
-              });
-            }]
+         	  }]
           }
         }
       }
