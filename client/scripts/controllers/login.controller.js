@@ -1,7 +1,7 @@
 import { Controller } from '../entities';
 
 export default class LoginCtrl extends Controller {
-  constructor($scope, $reactive, $log, $state, Login) {
+  constructor($scope, $reactive, $log, $state, Login, $ionicHistory) {
     super(...arguments);
     $reactive(this).attach($scope);
     this.credentials = {};
@@ -11,6 +11,10 @@ export default class LoginCtrl extends Controller {
 
     // Scope variables
     this.error = '';
+
+    $ionicHistory.nextViewOptions({
+      disableBack: true
+    });
   }
 
   // Perform the login action when the user submits the login form
@@ -21,11 +25,11 @@ export default class LoginCtrl extends Controller {
           this.error = err;
           this.$log.error(err);
         } else {
-          this.$state.go('app.map');
+          this.$state.go('app.main');
         }
       })
     );
   };
 }
 
-LoginCtrl.$inject = ['$scope', '$reactive', '$log', '$state', 'Login'];
+LoginCtrl.$inject = ['$scope', '$reactive', '$log', '$state', 'Login', '$ionicHistory'];

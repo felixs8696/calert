@@ -15,7 +15,12 @@ export default class RoutesConfig extends Config {
       views: {
         'menuContent': {
           templateUrl: 'client/templates/login.html',
-          controller: 'LoginCtrl as vm'
+          controller: 'LoginCtrl as vm',
+          resolve: {
+            "currentUser": ["$meteor", function($meteor){
+              return $meteor.waitForUser();
+            }]
+          }
         }
       }
     })
@@ -29,11 +34,23 @@ export default class RoutesConfig extends Config {
       }
     })
 
-    .state('app.browse', {
-        url: '/browse',
+    .state('app.main', {
+        url: '/main',
         views: {
           'menuContent': {
-            templateUrl: 'client/templates/browse.html'
+            templateUrl: 'client/templates/main.html',
+            controller: 'MainCtrl as vm',
+            resolve: {
+              "currentUser": ["$meteor", function($meteor){
+                // Require the user to exist and have email validated to enter state
+                return $meteor.requireValidUser((user) => {
+                  if (user.emails[0].verified) {
+                    return true;
+                  }
+                  return 'EMAIL_NOT_VALIDATED';
+                });
+              }]
+            }
           }
         }
       })

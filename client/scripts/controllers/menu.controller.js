@@ -1,34 +1,19 @@
 import { Controller } from '../entities';
 
 export default class MenuCtrl extends Controller {
-  constructor() {
+  constructor($log, $state) {
     super(...arguments);
-    this.credentials = {};
-    this.$reactive(this).attach(this.$scope);
+    this.$log = $log;
+    this.$state = $state;
   }
 
-  login() {
-    this.Login.showModal();
+  // Logs the user out and returns to the home page
+  logout() {
+    Accounts.logout((error) => {
+      if (error) $log.error(error);
+      else this.$state.go('app.login');
+    });
   }
-
-  closeLogin() {
-    this.Login.hideModal();
-  }
-
-  // Perform the login action when the user submits the login form
-  doLogin() {
-    Meteor.loginWithPassword(this.credentials.email, this.credentials.password,
-      this.$bindToContext((err) => {
-        if (err) {
-          this.error = err;
-          console.log(err);
-        } else {
-          this.closeLogin();
-          this.$state.go('chats');
-        }
-      })
-    );
-  };
 }
 
-MenuCtrl.$inject = ['Login', '$timeout', '$reactive', '$scope'];
+MenuCtrl.$inject = ['$log', '$state'];
