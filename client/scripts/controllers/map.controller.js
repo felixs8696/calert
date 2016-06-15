@@ -1,81 +1,14 @@
 import { Controller } from '../entities';
 
 export default class MapCtrl extends Controller {
-  constructor($scope, $log, uiGmapGoogleMapApi, uiGmapIsReady, Map) {
+  constructor($scope, $log, uiGmapGoogleMapApi, uiGmapIsReady, Map, $timeout, IntervalService) {
     super(...arguments);
 
     // Map Variables
-    this.control = {};
+    // this.control = {};
     this.mapObj = Map;
     this.map = Map.map;
 
-    uiGmapIsReady.promise().then((maps) => {
-      // Retrieve Google Map Control Object to make built in methods available
-      this.GMap = this.control.getGMap();
-      // Create a geocoder object to turn latlng object into a place
-      var geocoder = new google.maps.Geocoder;
-      this.geocodeLatLng = (geocoder, map, latitude, longitude) => {
-        var latlng = {lat: latitude, lng: longitude};
-        geocoder.geocode({'location': latlng}, (results, status) => {
-          if (status === google.maps.GeocoderStatus.OK) {
-            if (results[1]) {
-              // If geocoder API returns result use places service to get place object
-              var service = new google.maps.places.PlacesService(this.GMap);
-              var geoPlace = results[1];
-              service.getDetails({placeId: geoPlace.place_id}, (place, status) => {
-                if (status == google.maps.places.PlacesServiceStatus.OK) {
-                  console.log("Lat: " + place.geometry.location.lat() +
-                              ", Lng: " + place.geometry.location.lng() +
-                              ", Addr: " + place.formatted_address);
-                } else {
-                  $log.error(status);
-                }
-              });
-            } else {
-              $log.warn('No results found');
-            }
-          } else {
-            $log.error('Geocoder failed due to: ' + status);
-          }
-        });
-      }
-
-      var marker = {
-        id: this.map.markers.length,
-        latitude: this.map.center.latitude,
-        longitude: this.map.center.longitude
-      };
-      this.map.markers.push(marker);
-
-      var success = (position) => {
-        this.GMap.panTo(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
-        var geocoder = new google.maps.Geocoder;
-        this.geocodeLatLng(geocoder, this.GMap, position.coords.latitude, position.coords.longitude);
-        console.log(position);
-        var m = this.map.markers[this.map.markers.length-1]
-        m.latitude = position.coords.latitude;
-        m.longitude = position.coords.longitude;
-      }
-
-      var error = (err) => {
-        switch(error.code) {
-          case error.TIMEOUT:
-            // Acquire a new position object.
-            navigator.geolocation.getCurrentPosition(success, error);
-            break;
-        };
-        $log.error(err);
-      }
-
-      var options = {
-        timeout: 5000,
-        enableHighAccuracy: true,
-        maximumAge: 0
-        // distanceFilter: 1
-      };
-
-      var watchId = navigator.geolocation.watchPosition(success, error, options);
-    });
     uiGmapGoogleMapApi.then((maps)=> {
       //Map Object Options set in Client when dependent on controller or files
       // Define Marker Icons to be set later
@@ -105,14 +38,117 @@ export default class MapCtrl extends Controller {
             // this.toggleInfo();
           }
         };
+        Map.map.center = new google.maps.LatLng(Map.map.center.latitude, Map.map.center.longitude);
         this.map = Map.map;
+        this.mapObj = Map;
+        this.GMap = new google.maps.Map(document.getElementById("map"), this.map);
         $log.info("Map set", Map);
       }
       // Load the Map with the added options into the controller
       this.setMap(Map);
-      this.mapObj = Map;
+
+      // Create a geocoder object to turn latlng object into a place
+      var geocoder = new google.maps.Geocoder;
+      this.geocodeLatLng = (geocoder, map, latitude, longitude) => {
+        var latlng = {lat: latitude, lng: longitude};
+        geocoder.geocode({'location': latlng}, (results, status) => {
+          if (status === google.maps.GeocoderStatus.OK) {
+            if (results[1]) {
+              // If geocoder API returns result use places service to get place object
+              var service = new google.maps.places.PlacesService(this.GMap);
+              var geoPlace = results[1];
+              service.getDetails({placeId: geoPlace.place_id}, (place, status) => {
+                if (status == google.maps.places.PlacesServiceStatus.OK) {
+                  console.log("Lat: " + place.geometry.location.lat() +
+                              ", Lng: " + place.geometry.location.lng() +
+                              ", Addr: " + place.formatted_address);
+                } else {
+                  $log.error(status);
+                }
+              });
+            } else {
+              $log.warn('No results found');
+            }
+          } else {
+            $log.error('Geocoder failed due to: ' + status);
+          }
+        });
+      }
+
+      var marker;
+      navigator.geolocation.getCurrentPosition((pos) => {
+        console.log("Current: " + pos.coords.latitude +", " +pos.coords.longitude);
+        marker = new google.maps.Marker({
+          position: new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
+          map: this.GMap
+        });
+      });
+
+      var success = (position) => {
+        var geocoder = new google.maps.Geocoder;
+        this.geocodeLatLng(geocoder, this.GMap, position.coords.latitude, position.coords.longitude);
+        var pos = {lat: marker.position.lat(), lng: marker.position.lng()};
+        var newPos = {lat: position.coords.latitude, lng: position.coords.longitude};
+        console.log("From: "+pos.lat+", "+pos.lng);
+        transition(pos, newPos);
+        console.log("To: "+marker.position.lat()+", "+marker.position.lng());
+        console.log("Should Be: "+newPos.lat+", "+newPos.lng);
+        this.GMap.panTo(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+      }
+
+      var error = (err) => {
+        switch(error.code) {
+          case error.TIMEOUT:
+            // Acquire a new position object.
+            navigator.geolocation.getCurrentPosition(success, error);
+            break;
+        };
+        $log.error(err);
+      }
+
+      var options = {
+        timeout: 5000,
+        enableHighAccuracy: true,
+        maximumAge: 0
+        // distanceFilter: 1
+      };
+
+      var watchId = navigator.geolocation.watchPosition(success, error, options);
+
+      function diffSign(from, to) {
+        if ((from == 0 && to != 0)||(from !=0 && to == 0)) return true;
+        if ((from > 0 && to < 0) || (from < 0 && to > 0)) return true;
+        return false;
+      }
+
+      function transition(from, to){
+        var deltaLat = (to.lat - from.lat)/100;
+        var deltaLng = (to.lng - from.lng)/100;
+        var i = 0;
+        IntervalService.createInterval("aniMark",function(){
+          i++;
+          if (i == 100 || (diffSign(to.lat-from.lat,deltaLat) || diffSign(to.lng-from.lng,deltaLng))) {
+            IntervalService.cancelIntervalByKey("aniMark");
+          }
+          from.lat += deltaLat;
+          from.lng += deltaLng;
+          var latlng = new google.maps.LatLng(from.lat, from.lng);
+          marker.setPosition(latlng);
+        }, 10);
+      }
+
+      function moveMarker(i, from, deltaLat, deltaLng){
+          from.lat += deltaLat;
+          from.lng += deltaLng;
+          var latlng = new google.maps.LatLng(from.lat, from.lng);
+          marker.setPosition(latlng);
+          if(i!=100){
+              i++;
+              $timeout(()=>{moveMarker(i, from, deltaLat, deltaLng)}, 10);
+          }
+      }
     });
   }
 }
 
-MapCtrl.$inject = ['$scope', '$log', 'uiGmapGoogleMapApi', 'uiGmapIsReady', 'Map'];
+MapCtrl.$inject = ['$scope', '$log', 'uiGmapGoogleMapApi', 'uiGmapIsReady', 'Map', '$timeout', 'IntervalService'];
