@@ -45,3 +45,24 @@
     opacity: .2;
   }
 }
+
+#loading-bar .bar{
+  background: #2B228A !important;
+  position: absolute !important;
+  padding: 0 !important;
+}
+
+#loading-bar-spinner {
+  color: #2B228A !important;
+  position: absolute !important;
+  left: auto !important;
+  right: 15px !important;
+  top: 18px !important;
+}
+
+#loading-bar .peg {
+  -moz-box-shadow: #2B228A 1px 0 6px 1px !important;
+  -ms-box-shadow: #2B228A 1px 0 6px 1px !important;
+  -webkit-box-shadow: #2B228A 1px 0 6px 1px !important;
+  box-shadow: #2B228A 1px 0 6px 1px !important;
+}

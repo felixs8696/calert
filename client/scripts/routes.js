@@ -113,7 +113,7 @@ export default class RoutesConfig extends Config {
       }
     });
 
-    this.$urlRouterProvider.otherwise('/app/map');
+    this.$urlRouterProvider.otherwise('/app/main');
   }
 }
 

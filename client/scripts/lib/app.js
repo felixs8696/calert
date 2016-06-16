@@ -8,6 +8,7 @@ import 'angular-ui-router';
 import 'ionic-scripts';
 import 'angular-simple-logger';
 import 'angular-google-maps';
+import 'angular-loading-bar';
 import Definer from '../definer';
 import RoutesConfig from '../routes';
 import MenuCtrl from '../controllers/menu.controller';
@@ -38,14 +39,18 @@ const App = angular.module('calert', [
   'accounts.ui',
   'ionic',
   'nemLogging',
-  'uiGmapgoogle-maps'
-]).config(['uiGmapGoogleMapApiProvider', '$urlRouterProvider',function(uiGmapGoogleMapApiProvider, $urlRouterProvider) {
+  'uiGmapgoogle-maps',
+  'cfp.loadingBar'
+]).config(['uiGmapGoogleMapApiProvider', '$urlRouterProvider', 'cfpLoadingBarProvider', function(uiGmapGoogleMapApiProvider, $urlRouterProvider, cfpLoadingBarProvider) {
   uiGmapGoogleMapApiProvider.configure({
       key: 'AIzaSyCS91b3IpVVqYikQ69nNdoz_Za9S98qt8A',
       v: '3.24', //defaults to latest 3.X anyhow
       libraries: 'geometry,visualization,places'
   });
-  $urlRouterProvider.otherwise('/main');
+  cfpLoadingBarProvider.latencyThreshold = 0;
+  cfpLoadingBarProvider.startSize = 0;
+  cfpLoadingBarProvider.parentSelector = '#loading-bar-container';
+  cfpLoadingBarProvider.includeSpinner = false;
 }]).run(["$rootScope", "$state", function($rootScope, $state) {
   $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams){
   })

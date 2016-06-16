@@ -22,3 +22,12 @@
   -moz-animation: blink 3s ease-in-out infinite;
   animation: blink 3s ease-in-out infinite;
 }
+
+.pseudo-ion-content {
+  position: absolute;
+  left: 0px;
+  top: 43px;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+}

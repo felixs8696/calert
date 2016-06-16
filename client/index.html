@@ -1,6 +1,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+  <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/angular-loading-bar/0.9.0/loading-bar.min.css' type='text/css' media='all' />
   <title>Calert</title>
   <link rel="icon" sizes="16x16 32x32" href="/favicon.ico?v=2">
 </head>
@@ -14,6 +15,7 @@
   </ion-nav-back-button>
 </ion-nav-bar>
 <i class="alert-session icon ion-alert-circled blink" ng-controller="GlobalCtrl as vm" ng-show="vm.sessionStatus" ng-class="{'to-front': vm.sessionStatus}" ng-click="vm.toggleMainMap()"></i>
+<div id="loading-bar-container" class="pseudo-ion-content" ng-controller="GlobalCtrl as vm" ng-show="vm.showLoadingBar"></div>
 <!--
   The views will be rendered in the <ion-nav-view> directive below
   Templates are in the /templates folder (but you could also

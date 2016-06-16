@@ -1,17 +1,22 @@
 import { Controller } from '../entities';
 
 export default class GlobalCtrl extends Controller {
-  constructor($scope, SessionService,$state) {
+  constructor($scope, SessionService,$state, cfpLoadingBar) {
     super(...arguments);
     // this.sessionStatus = false;
     this.$state = $state;
+    this.showLoadingBar = false;
     $scope.$watch(() => {
       return SessionService.inSession;
     }, (newValue, oldValue) => {
-      // console.log(newValue);
       this.sessionStatus = newValue;
     });
-    // console.log($state);
+    $scope.$on('cfpLoadingBar:started', (event, data) => {
+      this.showLoadingBar = true;
+    });
+    $scope.$on('cfpLoadingBar:completed', (event, data) => {
+      this.showLoadingBar = false;
+    });
   }
 
   toggleMainMap() {
@@ -23,4 +28,4 @@ export default class GlobalCtrl extends Controller {
   }
 }
 
-GlobalCtrl.$inject = ['$scope', 'SessionService', '$state'];
+GlobalCtrl.$inject = ['$scope', 'SessionService', '$state', 'cfpLoadingBar'];

@@ -1,7 +1,7 @@
 import { Controller } from '../entities';
 
 export default class MapCtrl extends Controller {
-  constructor($scope, $log, uiGmapGoogleMapApi, uiGmapIsReady, Map, $timeout, IntervalService, MapService, MarkerIconService, NavigationService, SessionService) {
+  constructor($scope, $log, uiGmapGoogleMapApi, Map, MapService, MarkerIconService, NavigationService, SessionService) {
     super(...arguments);
 
     // Map Variables
@@ -44,4 +44,4 @@ export default class MapCtrl extends Controller {
   }
 }
 
-MapCtrl.$inject = ['$scope', '$log', 'uiGmapGoogleMapApi', 'uiGmapIsReady', 'Map', '$timeout', 'IntervalService', 'MapService', 'MarkerIconService', 'NavigationService', 'SessionService'];
+MapCtrl.$inject = ['$scope', '$log', 'uiGmapGoogleMapApi', 'Map', 'MapService', 'MarkerIconService', 'NavigationService', 'SessionService'];

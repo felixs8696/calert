@@ -1,21 +1,26 @@
 import { Service } from '../entities';
 
 export default class NavigationService extends Service {
-  constructor($log, uiGmapGoogleMapApi, MapService, IntervalService) {
+  constructor($log, uiGmapGoogleMapApi, MapService, IntervalService, cfpLoadingBar) {
     super(...arguments);
     this.$log = $log;
     this.MapService = MapService;
     this.IntervalService = IntervalService;
     this.uiGmapGoogleMapApi = uiGmapGoogleMapApi;
+    this.cfpLoadingBar = cfpLoadingBar;
     this.marker = null;
   }
   initCurrentPos(gmap) {
+    this.cfpLoadingBar.start();
     this.uiGmapGoogleMapApi.then(() => {
       navigator.geolocation.getCurrentPosition((pos) => {
+        var latlng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
         this.marker = new google.maps.Marker({
-          position: new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
+          position: latlng,
           map: gmap
         });
+        gmap.panTo(latlng);
+        this.cfpLoadingBar.complete();
       }, (error) => {
         this.$log.error(error);
       });
@@ -36,7 +41,7 @@ export default class NavigationService extends Service {
         var i = 0;
         this.IntervalService.createInterval("aniMark",() => {
           i++;
-          if (i == 100 || (diffSign(to.lat-from.lat,deltaLat) || diffSign(to.lng-from.lng,deltaLng))) {
+          if (i >= 100 || (diffSign(to.lat-from.lat,deltaLat) || diffSign(to.lng-from.lng,deltaLng))) {
             this.IntervalService.cancelIntervalByKey("aniMark");
           }
           from.lat += deltaLat;
@@ -62,4 +67,4 @@ export default class NavigationService extends Service {
   }
 }
 
-NavigationService.$inject = ['$log','uiGmapGoogleMapApi', 'MapService', 'IntervalService'];
+NavigationService.$inject = ['$log','uiGmapGoogleMapApi', 'MapService', 'IntervalService', 'cfpLoadingBar'];
