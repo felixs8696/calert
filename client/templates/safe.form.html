@@ -1,0 +1,25 @@
+<ion-modal-view>
+  <form name="safeForm">
+    <ion-header-bar class="bar-positive">
+      <a class="button" ng-click="vm.closeModal()">Cancel</a>
+      <h1 class="title">Report Incident</h1>
+      <a class="button" ng-click="vm.saveDraft()">Save Draft</a>
+    </ion-header-bar>
+    <ion-content has-bouncing="true">
+      <div class="list">
+        <label class="item item-input item-floating-label">
+          <span class="input-label">First Name</span>
+          <input type="text" placeholder="First Name">
+        </label>
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Last Name</span>
+          <input type="text" placeholder="Last Name">
+        </label>
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Email</span>
+          <input type="text" placeholder="Email">
+        </label>
+      </div>
+    </ion-content>
+  </form>
+</ion-modal-view>

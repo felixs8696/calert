@@ -1,0 +1,34 @@
+@font-face {
+  font-family: 'AmericanCaptain';
+  src: url('fonts/AmericanCaptain.eot'), /* IE6-IE8 */
+       url('fonts/AmericanCaptain.woff2') format('woff2'), /* Super Modern Browsers */
+       url('fonts/AmericanCaptain.woff') format('woff'), /* Pretty Modern Browsers */
+       url('fonts/AmericanCaptain.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('fonts/AmericanCaptain.svg') format('svg'); /* Legacy iOS */
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+/* when hiding the picture */
+.ng-hide-add         { animation:0.5s fadeOut ease; }
+
+/* when showing the picture */
+.ng-hide-remove      { animation:0.5s fadeIn ease; }

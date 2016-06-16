@@ -1,0 +1,138 @@
+.background {
+  background-image: url('backgrounds/danger0.svg');
+  background-position: center;
+  background-size: cover;
+  transition: all 0.2s ease-in-out;
+}
+.background.background-danger-1 {
+  background-image: url('backgrounds/danger1.svg') !important;
+}
+.background.background-danger-2 {
+  background-image: url('backgrounds/danger2.svg') !important;
+}
+.background.background-danger-3 {
+  background-image: url('backgrounds/danger3.svg') !important;
+}
+
+.logo-container {
+  position: absolute;
+  top: 4em;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  text-align: center;
+}
+
+.button-container {
+  width: 260px;
+  height: 274px;
+  position: absolute;
+  top: calc(50vh + 1.5em);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.depressed-primary-button {
+  border: 0;
+  border-radius: 50%;
+  width: 220px;
+  height: 220px;
+  background-image: linear-gradient(-180deg, #BFC4CA 0%, #E9EEF2 100%);
+  box-shadow: 0px 1px 0px 0px rgba(255,255,255,0.75), inset 0px 1px 3px 0px rgba(0,0,0,0.05);
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  transition: all 0.2s ease-in-out;
+}
+
+.depressed-primary-button.depressed-danger {
+  background-image: linear-gradient(-180deg, #333333 0%, #FF7979 100%) !important;
+  box-shadow: 0px 1px 2px 0px rgba(88,75,75,0.58), inset 0px 1px 3px 0px rgba(0,0,0,0.05)  !important;
+}
+
+.primary-button {
+  width: 204px;
+  height: 204px;
+  border: 0;
+  border-radius: 50%;
+  margin: 8px;
+  background-image: linear-gradient(-180deg, #FF0000 0%, #FF8484 100%);
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.10), 0px 6px 4px 0px rgba(0,0,0,0.15), 0px 1px 2px 0px rgba(0,0,0,0.25), inset 0px -3px 0px 0px rgba(0,0,0,0.10), inset 0px 1px 1px 0px rgba(255,255,255,0.50);
+  color: white;
+  font-size: 100px;
+}
+
+.primary-danger-1 {
+  color: #F2EEC5 !important;
+}
+
+.primary-danger-2 {
+  color: #F7EC67;
+}
+
+.primary-danger-3 {
+  color: #FFEC00 !important;
+}
+
+.primary-button i.icon::before {
+  font-size: 100px;
+}
+
+.primary-button .number {
+  font-family: "AmericanCaptain", "Impact", sans-serif;
+  font-size: 100px;
+  line-height: 2.1em;
+}
+
+.secondary-button-container{
+  height: 64px;
+  width: 260px;
+  margin-top: 10px;
+}
+
+.secondary-button {
+  width: 62px;
+  height: 62px;
+  margin: 6px;
+  display: inline-block;
+  color: white;
+}
+
+.depressed-secondary-button {
+  border: 0;
+  border-radius: 50%;
+  width: 74px;
+  height: 74px;
+  background-image: linear-gradient(-180deg, #BFC4CA 0%, #E9EEF2 100%);
+  box-shadow: 0px 1px 0px 0px rgba(255,255,255,0.75), inset 0px 1px 3px 0px rgba(0,0,0,0.05);
+  display: inline-block;
+}
+
+.depressed-secondary-button.depressed-danger {
+  background-image: linear-gradient(-180deg, #333333 0%, #FF7979 100%) !important;
+  box-shadow: 0px 1px 2px 0px rgba(88,75,75,0.58), inset 0px 1px 3px 0px rgba(0,0,0,0.05)  !important;
+}
+
+.decrease-danger {
+  background-image: linear-gradient(-180deg, #FFBB1E 0%, #E6F168 97%);
+  border: 0;
+  border-radius: 50%;
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.10), 0px 6px 4px 0px rgba(0,0,0,0.15), 0px 1px 2px 0px rgba(0,0,0,0.25), inset 0px -3px 0px 0px rgba(0,0,0,0.10), inset 0px 1px 1px 0px rgba(255,255,255,0.50);
+}
+
+.mark-safe {
+  border: 0;
+  border-radius: 50%;
+  background-image: linear-gradient(-180deg, #1CA30B 0%, #9FE17F 97%);
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.10), 0px 6px 4px 0px rgba(0,0,0,0.15), 0px 1px 2px 0px rgba(0,0,0,0.25), inset 0px -3px 0px 0px rgba(0,0,0,0.10), inset 0px 1px 1px 0px rgba(255,255,255,0.50);
+}
+
+.cancel-alert {
+  border: 0;
+  border-radius: 50%;
+  background-image: linear-gradient(-180deg, #CED3DB 0%, #F1F6FA 100%);
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.10), 0px 6px 4px 0px rgba(0,0,0,0.15), 0px 1px 2px 0px rgba(0,0,0,0.25), inset 0px -3px 0px 0px rgba(0,0,0,0.10), inset 0px 1px 1px 0px rgba(255,255,255,0.50);
+}

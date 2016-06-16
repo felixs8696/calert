@@ -28,6 +28,7 @@ import InputDirective from '../directives/input.directive';
 // App
 const App = angular.module('calert', [
   'angular-meteor',
+  'ngAnimate',
   'angularMoment',
   'accounts.ui',
   'ionic',

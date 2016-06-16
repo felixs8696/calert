@@ -81,6 +81,13 @@ export default class MapCtrl extends Controller {
           position: new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
           map: this.GMap
         });
+      }, (error) => {
+        switch(error.code) {
+          case error.TIMEOUT:
+            navigator.geolocation.getCurrentPosition(success, error);
+            break;
+        };
+        $log.error(error);
       });
 
       var watchId = navigator.geolocation.watchPosition((position) => {
@@ -89,13 +96,13 @@ export default class MapCtrl extends Controller {
         var newPos = {lat: position.coords.latitude, lng: position.coords.longitude};
         transition(pos, newPos);
         this.GMap.panTo(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
-      }, (err) => {
+      }, (error) => {
         switch(error.code) {
           case error.TIMEOUT:
             navigator.geolocation.getCurrentPosition(success, error);
             break;
         };
-        $log.error(err);
+        $log.error(error);
       }, { timeout: 5000, enableHighAccuracy: true, maximumAge: 0 });
 
       function diffSign(from, to) {

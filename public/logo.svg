@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="282px" height="99px" viewBox="0 0 282 99" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.7.2 (28276) - http://www.bohemiancoding.com/sketch -->
+    <title>ert + Type something + Mask + Type something</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="3" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.621263587 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <polygon id="path-2" points="136 0 272 161 0 161"></polygon>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="calert" transform="translate(-47.000000, -120.000000)">
+            <g id="ert-+-Type-something-+-Mask-+-Type-something" filter="url(#filter-1)" transform="translate(50.000000, 99.000000)">
+                <g id="ert-+-Type-something" font-size="120" font-family="AmericanCaptain, American Captain" font-weight="normal">
+                    <text id="ert" fill="#E2D42A">
+                        <tspan x="136.38" y="114">ert</tspan>
+                    </text>
+                    <text id="CAL" fill="#410575">
+                        <tspan x="0.32" y="114">CAL</tspan>
+                    </text>
+                </g>
+                <g id="Mask-+-Type-something" transform="translate(3.000000, 0.000000)">
+                    <mask id="mask-3" fill="white">
+                        <use xlink:href="#path-2"></use>
+                    </mask>
+                    <use id="Mask" fill-opacity="0" fill="#FFFFFF" xlink:href="#path-2"></use>
+                    <text id="Al" mask="url(#mask-3)" font-family="AmericanCaptain, American Captain" font-size="120" font-weight="normal" fill="#E2D42A">
+                        <tspan x="39.38" y="114">Al</tspan>
+                    </text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

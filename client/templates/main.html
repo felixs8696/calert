@@ -1,10 +1,28 @@
-<ion-view view-title="CALERT">
+<ion-view class="background" ng-class="vm.dangerClass().background">
   <ion-content>
-    <button class="button icon ion-location" ui-sref='app.map'></button>
-    <button class="button icon ion-alert-circled"></button>
-    <button class="button icon ion-minus"></button>
-    <button class="button icon ion-heart"></button>
-    <button class="button icon ion-android-notifications-off"></button>
-    <button class="button icon ion-gear-a"></button>
+    <div class="logo-container">
+      <img src="logo.svg"/>
+    </div>
+    <div class="button-container">
+      <!-- <button class="button icon ion-location" ng-click='vm.viewMap()'></button> -->
+      <div class="depressed-primary-button" ng-class="{'depressed-danger': vm.dangerLevel > 0}">
+        <button class="button primary-button" ng-click='vm.alertPress()'>
+          <!-- <i class="icon ion-location" ng-show="vm.dangerLevel == 0"></i> -->
+          <div class="number" ng-class="vm.dangerClass().primary">{{vm.dangerLevel}}</div>
+        </button>
+      </div>
+      <div class="secondary-button-container">
+        <div class="depressed-secondary-button" ng-class="{'depressed-danger': vm.dangerLevel > 0}">
+          <button class="button icon ion-minus secondary-button decrease-danger" ng-click='vm.decreaseDanger()'></button>
+        </div>
+        <div class="depressed-secondary-button" ng-class="{'depressed-danger': vm.dangerLevel > 0}">
+          <button class="button icon ion-heart secondary-button mark-safe" ng-click='vm.markSafe()'></button>
+        </div>
+        <div class="depressed-secondary-button" ng-class="{'depressed-danger': vm.dangerLevel > 0}">
+          <button class="button icon ion-android-notifications-off secondary-button cancel-alert" ng-click='vm.cancelAlert()'></button>
+        </div>
+        <!-- <button class="button icon ion-gear-a" ng-click='vm.viewProfile()'></button> -->
+      </div>
+    </div>
   </ion-content>
 </ion-view>
