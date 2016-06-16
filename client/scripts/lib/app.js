@@ -17,8 +17,9 @@ import LoginCtrl from '../controllers/login.controller';
 import MainCtrl from '../controllers/main.controller';
 import ChatsCtrl from '../controllers/chats.controller';
 import Login from '../services/login.service';
-import MeteorMapService from '../services/map.service'
-import IntervalService from '../services/interval.service'
+import MeteorMapService from '../services/map.service';
+import IntervalService from '../services/interval.service';
+import SessionService from '../services/session.service';
 import DateFilter from '../filters/date.filter';
 import ChatCtrl from '../controllers/chat.controller';
 import InputDirective from '../directives/input.directive';
@@ -73,6 +74,7 @@ new Definer(App)
   .define(Login)
   .define(MeteorMapService)
   .define(IntervalService)
+  .define(SessionService)
   .define(DateFilter)
   .define(InputDirective)
   .define(ChatsCtrl)
