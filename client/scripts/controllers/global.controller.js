@@ -15,8 +15,11 @@ export default class GlobalCtrl extends Controller {
   }
 
   toggleMainMap() {
-    if (this.$state.current.name == "app.map") this.$state.go("app.main");
-    if (this.$state.current.name == "app.main") this.$state.go("app.map");
+    if (this.$state.current.name == "app.main") {
+      this.$state.go("app.map");
+    } else  {
+      this.$state.go("app.main");
+    }
   }
 }
 

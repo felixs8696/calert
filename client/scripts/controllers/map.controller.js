@@ -91,7 +91,9 @@ export default class MapCtrl extends Controller {
       });
 
       var watchId = navigator.geolocation.watchPosition((position) => {
-        this.geocodeLatLng(geocoder, this.GMap, position.coords.latitude, position.coords.longitude);
+        // TODO: Turn geocoder back on once you figure out what to do with it.
+        // TODO: Mayber replace geocoder with places service
+        // this.geocodeLatLng(geocoder, this.GMap, position.coords.latitude, position.coords.longitude);
         var pos = {lat: marker.position.lat(), lng: marker.position.lng()};
         var newPos = {lat: position.coords.latitude, lng: position.coords.longitude};
         transition(pos, newPos);
