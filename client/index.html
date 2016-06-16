@@ -13,6 +13,7 @@
   <ion-nav-back-button>
   </ion-nav-back-button>
 </ion-nav-bar>
+<i class="alert-session icon ion-alert-circled blink" ng-controller="GlobalCtrl as vm" ng-show="vm.sessionStatus" ng-class="{'to-front': vm.sessionStatus}"></i>
 <!--
   The views will be rendered in the <ion-nav-view> directive below
   Templates are in the /templates folder (but you could also

@@ -16,6 +16,7 @@ import MapCtrl from '../controllers/map.controller';
 import LoginCtrl from '../controllers/login.controller';
 import MainCtrl from '../controllers/main.controller';
 import ChatsCtrl from '../controllers/chats.controller';
+import GlobalCtrl from '../controllers/global.controller';
 import Login from '../services/login.service';
 import MeteorMapService from '../services/map.service';
 import IntervalService from '../services/interval.service';
@@ -84,6 +85,7 @@ new Definer(App)
   .define(MenuCtrl)
   .define(PlaylistCtrl)
   .define(MapCtrl)
+  .define(GlobalCtrl)
   .define(RoutesConfig);
 
 // Startup

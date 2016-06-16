@@ -20,6 +20,7 @@ export default class MainCtrl extends Controller {
 
   alertPress() {
     this.SessionService.enterSession();
+    console.log(this.SessionService.sessionStatus());
     var danger = this.increaseDanger();
     console.log("Danger Level (+): " + danger);
   }

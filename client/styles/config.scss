@@ -27,8 +27,21 @@
   }
 }
 
-/* when hiding the picture */
-.ng-hide-add         { animation:0.5s fadeOut ease; }
+.ng-hide-add {
+  animation:0.5s fadeOut ease;
+}
 
-/* when showing the picture */
-.ng-hide-remove      { animation:0.5s fadeIn ease; }
+.ng-hide-remove {
+  animation:0.5s fadeIn ease;
+}
+
+@keyframes blink {
+  50% {
+    opacity: .2;
+  }
+}
+@-webkit-keyframes blink {
+  50% {
+    opacity: .2;
+  }
+}
