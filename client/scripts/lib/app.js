@@ -18,9 +18,11 @@ import MainCtrl from '../controllers/main.controller';
 import ChatsCtrl from '../controllers/chats.controller';
 import GlobalCtrl from '../controllers/global.controller';
 import Login from '../services/login.service';
-import MeteorMapService from '../services/map.service';
+import MapService from '../services/map.service';
+import MeteorMapService from '../services/map.meteor.service';
 import IntervalService from '../services/interval.service';
 import SessionService from '../services/session.service';
+import MarkerIconService from '../services/markericon.service'
 import DateFilter from '../filters/date.filter';
 import ChatCtrl from '../controllers/chat.controller';
 import InputDirective from '../directives/input.directive';
@@ -73,9 +75,11 @@ const App = angular.module('calert', [
 
 new Definer(App)
   .define(Login)
+  .define(MapService)
   .define(MeteorMapService)
   .define(IntervalService)
   .define(SessionService)
+  .define(MarkerIconService)
   .define(DateFilter)
   .define(InputDirective)
   .define(ChatsCtrl)

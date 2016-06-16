@@ -67,11 +67,12 @@ export default class RoutesConfig extends Config {
                 return 'EMAIL_NOT_VALIDATED';
               });
             }],
-            Map: ['$q', 'MeteorMapService', '$meteor', '$state', function($q, MeteorMapService, $meteor, $state) {
+            Map: ['$q', 'MeteorMapService', '$meteor', '$state', 'MapService', function($q, MeteorMapService, $meteor, $state, MapService) {
               // Wait for the user to exist and resolve the map in order to enter state
               var deferred = $q.defer();
               $meteor.waitForUser().then((user) => {
                 MeteorMapService.getMap(user.profile.university, (map) => {
+                  MapService.initMap(map);
                   deferred.resolve(map);
                 })
               });

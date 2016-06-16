@@ -1,7 +1,7 @@
 import { Controller } from '../entities';
 
 export default class MapCtrl extends Controller {
-  constructor($scope, $log, uiGmapGoogleMapApi, uiGmapIsReady, Map, $timeout, IntervalService) {
+  constructor($scope, $log, uiGmapGoogleMapApi, uiGmapIsReady, Map, $timeout, IntervalService, MapService, MarkerIconService) {
     super(...arguments);
 
     // Map Variables
@@ -21,59 +21,15 @@ export default class MapCtrl extends Controller {
       };
       // Define Map options that need to interact with the controller
       // TODO: Use REST protocol to set maps and update url
-      this.setMap = (Map) => {
-        Map.map.window = {
-          marker: {},
-          show: false,
-          closeClick: () => {this.map.window.show = false;},
-          options: {pixelOffset: new google.maps.Size(0, -40)}
-        };
-        Map.map.markersEvents = {
-          mouseover: (marker, eventName, model) => {
-            this.map.window.model = model;
-            this.map.window.show = true;
-          },
-          click: (marker, eventName, model) => {
-            this.map.event = model.content;
-            // this.toggleInfo();
-          }
-        };
-        Map.map.center = new google.maps.LatLng(Map.map.center.latitude, Map.map.center.longitude);
-        this.map = Map.map;
-        this.mapObj = Map;
+      this.setMap = () => {
+        this.map = MapService.map;
+        this.mapObj = MapService.mapObj;
         this.GMap = new google.maps.Map(document.getElementById("map"), this.map);
-        $log.info("Map set", Map);
+        // Create a geocoder object to turn latlng object into a place
+        this.geocoder = new google.maps.Geocoder;
       }
       // Load the Map with the added options into the controller
       this.setMap(Map);
-
-      // Create a geocoder object to turn latlng object into a place
-      var geocoder = new google.maps.Geocoder;
-      this.geocodeLatLng = (geocoder, map, latitude, longitude) => {
-        var latlng = {lat: latitude, lng: longitude};
-        geocoder.geocode({'location': latlng}, (results, status) => {
-          if (status === google.maps.GeocoderStatus.OK) {
-            if (results[1]) {
-              // If geocoder API returns result use places service to get place object
-              var service = new google.maps.places.PlacesService(this.GMap);
-              var geoPlace = results[1];
-              service.getDetails({placeId: geoPlace.place_id}, (place, status) => {
-                if (status == google.maps.places.PlacesServiceStatus.OK) {
-                  console.log("Lat: " + place.geometry.location.lat() +
-                              ", Lng: " + place.geometry.location.lng() +
-                              ", Addr: " + place.formatted_address);
-                } else {
-                  $log.error(status);
-                }
-              });
-            } else {
-              $log.warn('No results found');
-            }
-          } else {
-            $log.error('Geocoder failed due to: ' + status);
-          }
-        });
-      }
 
       var marker;
       navigator.geolocation.getCurrentPosition((pos) => {
@@ -92,11 +48,11 @@ export default class MapCtrl extends Controller {
 
       var watchId = navigator.geolocation.watchPosition((position) => {
         // TODO: Turn geocoder back on once you figure out what to do with it.
-        // TODO: Mayber replace geocoder with places service
-        // this.geocodeLatLng(geocoder, this.GMap, position.coords.latitude, position.coords.longitude);
+        // MapService.geocodeLatLng(this.geocoder, this.GMap, position.coords.latitude, position.coords.longitude);
         var pos = {lat: marker.position.lat(), lng: marker.position.lng()};
         var newPos = {lat: position.coords.latitude, lng: position.coords.longitude};
         transition(pos, newPos);
+        console.log(newPos);
         this.GMap.panTo(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
       }, (error) => {
         $log.error(error);
@@ -127,4 +83,4 @@ export default class MapCtrl extends Controller {
   }
 }
 
-MapCtrl.$inject = ['$scope', '$log', 'uiGmapGoogleMapApi', 'uiGmapIsReady', 'Map', '$timeout', 'IntervalService'];
+MapCtrl.$inject = ['$scope', '$log', 'uiGmapGoogleMapApi', 'uiGmapIsReady', 'Map', '$timeout', 'IntervalService', 'MapService', 'MarkerIconService'];
