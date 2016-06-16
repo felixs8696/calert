@@ -22,7 +22,8 @@ import MapService from '../services/map.service';
 import MeteorMapService from '../services/map.meteor.service';
 import IntervalService from '../services/interval.service';
 import SessionService from '../services/session.service';
-import MarkerIconService from '../services/markericon.service'
+import MarkerIconService from '../services/markericon.service';
+import NavigationService from '../services/navigation.service';
 import DateFilter from '../filters/date.filter';
 import ChatCtrl from '../controllers/chat.controller';
 import InputDirective from '../directives/input.directive';
@@ -80,6 +81,7 @@ new Definer(App)
   .define(IntervalService)
   .define(SessionService)
   .define(MarkerIconService)
+  .define(NavigationService)
   .define(DateFilter)
   .define(InputDirective)
   .define(ChatsCtrl)
