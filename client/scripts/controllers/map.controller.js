@@ -97,12 +97,6 @@ export default class MapCtrl extends Controller {
         transition(pos, newPos);
         this.GMap.panTo(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
       }, (error) => {
-        // switch(error.code) {
-          // case error.TIMEOUT:
-          //   navigator.geolocation.getCurrentPosition(success, error);
-          //   break;
-        //   $log.error(error);
-        // };
         $log.error(error);
       }, { timeout: 5000, enableHighAccuracy: true, maximumAge: 0 });
 

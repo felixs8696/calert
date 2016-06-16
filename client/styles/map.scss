@@ -1,4 +1,5 @@
 .angular-google-map-container {
-  height: 100vh;
+  position: absolute;
+  height: calc(100vh - 43px);
   width: 100vw;
 }
