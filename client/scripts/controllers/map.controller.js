@@ -19,7 +19,7 @@ export default class MapCtrl extends Controller {
         this.mapObj = MapService.mapObj;
         this.GMap = new google.maps.Map(document.getElementById("map"), this.map);
         MapService.initMapMarkers(this.GMap);
-        NavigationService.setTrackedMarker(NavigationService.marker.position, this.GMap);
+        if (this.NavigationService.isTracking()) NavigationService.setTrackedMarker(NavigationService.marker.position, this.GMap);
         // if (NavigationService.marker.position) {
         //   NavigationService.marker.setPosition(NavigationService.marker.position);
         //   NavigationService.marker.setMap(this.GMap);
@@ -34,7 +34,9 @@ export default class MapCtrl extends Controller {
       $scope.$watch(() => {
         return SessionService.inSession;
       }, (sessionStatus, oldStatus) => {
-        if(sessionStatus && sessionStatus != oldStatus) this.startTracking();
+        console.log(oldStatus + " to " + sessionStatus + " Is tracking: "+ this.NavigationService.isTracking());
+        if(sessionStatus && !this.NavigationService.isTracking()) this.startTracking();
+        if(!sessionStatus) this.stopTracking();
       });
     });
   }
@@ -43,6 +45,7 @@ export default class MapCtrl extends Controller {
     if (!this.GMap) this.setMap(Map);
     this.NavigationService.initCurrentPos(this.GMap);
     this.NavigationService.startPosWatch(this.GMap);
+    this.NavigationService.startTrackingIndicator();
     this.$log.context('MapCtrl.startTracking').debug('Started Tracking Location');
   }
 

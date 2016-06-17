@@ -89,6 +89,18 @@ export default class NavigationService extends Service {
       gmap.setZoom(18);
     }
   }
+
+  startTrackingIndicator() {
+    this.startedTracking = true;
+  }
+
+  stopTrackingIndicator() {
+    this.startedTracking = false;
+  }
+
+  isTracking() {
+    return this.startedTracking;
+  }
 }
 
 NavigationService.$inject = ['$log','uiGmapGoogleMapApi', 'MapService', 'IntervalService', 'cfpLoadingBar', 'MarkerIconService'];

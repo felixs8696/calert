@@ -1,10 +1,11 @@
 import { Service } from '../entities';
 
 export default class SessionService extends Service {
-  constructor($log) {
+  constructor($log, NavigationService) {
     super(...arguments);
     this.inSession = false;
     this.$log = $log;
+    this.NavigationService = NavigationService;
   }
   enterSession() {
     if (!this.inSession) {
@@ -16,6 +17,7 @@ export default class SessionService extends Service {
   finishSession() {
     if (this.inSession) {
       this.inSession = false;
+      this.NavigationService.stopTrackingIndicator();
       this.$log.context('SessionService.finishSession').debug("Alert Session Ended")
     }
   }
@@ -26,4 +28,4 @@ export default class SessionService extends Service {
 
 }
 
-SessionService.$inject = ['$log'];
+SessionService.$inject = ['$log', 'NavigationService'];
