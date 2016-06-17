@@ -13,13 +13,15 @@ export default class MarkerService extends Service {
 
   addMarker(marker) {
     this.mapMarkers[marker._id] = marker;
-    this.uiGmapGoogleMapApi.then(() => {
-      google.maps.event.addListener(marker, 'mouseover', () => {
-        var contentString = marker.content.title + " at " + this.$filter('date')(marker.content.timestamp,'short');
-        this.infowindow.setContent(contentString);
-        this.infowindow.open(marker.getMap(), marker);
+    if (marker.content) {
+      this.uiGmapGoogleMapApi.then(() => {
+        google.maps.event.addListener(marker, 'mouseover', () => {
+          var contentString = marker.content.title + " at " + this.$filter('date')(marker.content.timestamp,'short');
+          this.infowindow.setContent(contentString);
+          this.infowindow.open(marker.getMap(), marker);
+        });
       });
-    });
+    }
   }
 
   getMarkerById(id) {

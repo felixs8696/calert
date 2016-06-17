@@ -5,6 +5,7 @@ export default class MapService extends Service {
     super(...arguments);
     this.map = undefined;
     this.mapObj = undefined;
+    this.GMap = undefined;
     // this.GMap = undefined;
     this.uiGmapGoogleMapApi = uiGmapGoogleMapApi;
     this.MarkerService = MarkerService;
@@ -32,13 +33,13 @@ export default class MapService extends Service {
       Map.map.center = new google.maps.LatLng(Map.map.center.latitude, Map.map.center.longitude);
       this.map = Map.map;
       this.mapObj = Map;
-      this.$log.info("Map set", Map);
+      this.$log.context('MapService.initMap').debug("Map set", Map);
     });
   }
 
   initMapMarkers(gmap) {
+    this.GMap = gmap;
     this.uiGmapGoogleMapApi.then((maps) => {
-      console.log(this.map.markers);
       for (var i = 0; i < this.map.markers.length; i++) {
         var marker = this.map.markers[i];
         var newMarker = new google.maps.Marker({
@@ -65,16 +66,16 @@ export default class MapService extends Service {
             var geoPlace = results[1];
             service.getDetails({placeId: geoPlace.place_id}, (place, status) => {
               if (status == google.maps.places.PlacesServiceStatus.OK) {
-                console.log("Lat: " + place.geometry.location.lat() + ", Lng: " + place.geometry.location.lng() + ", Addr: " + place.formatted_address);
+                this.$log.context('MapService.geocodeLatLng').log("Lat: " + place.geometry.location.lat() + ", Lng: " + place.geometry.location.lng() + ", Addr: " + place.formatted_address);
               } else {
-                this.$log.error(status);
+                this.$log.context('MapService.geocodeLatLng').error(status);
               }
             });
           } else {
-            this.$log.warn('No results found');
+            this.$log.context('MapService.geocodeLatLng').warn('No results found');
           }
         } else {
-          this.$log.error('Geocoder failed due to: ' + status);
+          this.$log.context('MapService.geocodeLatLng').error('Geocoder failed due to: ' + status);
         }
       });
     })

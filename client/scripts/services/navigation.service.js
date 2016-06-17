@@ -8,13 +8,17 @@ export default class NavigationService extends Service {
     this.IntervalService = IntervalService;
     this.uiGmapGoogleMapApi = uiGmapGoogleMapApi;
     this.cfpLoadingBar = cfpLoadingBar;
+    this.posWatcher = null;
     uiGmapGoogleMapApi.then(() => {
       this.marker = new google.maps.Marker();
     });
   }
 
   changeMarkerIcon(icon) {
-    this.marker.setIcon(icon);
+    this.uiGmapGoogleMapApi.then((maps) => {
+      this.marker.setIcon(icon);
+      this.$log.context('NavigationService.changeMarkerIcon').log("Marker icon set to: "+ icon);
+    })
   }
 
   initCurrentPos(gmap) {
@@ -24,16 +28,13 @@ export default class NavigationService extends Service {
         var latlng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
         this.marker.setPosition(latlng);
         this.marker.setMap(gmap);
-        // this.marker = new google.maps.Marker({
-        //   position: latlng,
-        //   map: gmap
-        // });
         gmap.panTo(latlng);
         this.cfpLoadingBar.complete();
       }, (error) => {
         this.$log.error(error);
       });
     });
+    this.$log.context('NavigationService.initCurrentPos').debug("Current position found. Tracking Marker Set.");
   }
 
   startPosWatch(gmap) {
@@ -60,19 +61,26 @@ export default class NavigationService extends Service {
         }, 10);
       }
 
-      var watchId = navigator.geolocation.watchPosition((position) => {
+      this.posWatcher = navigator.geolocation.watchPosition((position) => {
         // TODO: Turn geocoder back on once you figure out what to do with it.
         // this.MapService.geocodeLatLng(this.geocoder, gmap, position.coords.latitude, position.coords.longitude);
         var pos = {lat: this.marker.position.lat(), lng: this.marker.position.lng()};
         var newPos = {lat: position.coords.latitude, lng: position.coords.longitude};
         transition(pos, newPos);
-        console.log(newPos);
+        this.$log.context('NavigationService.startPosWatch.posWatcher').log('Location Update:' + newPos);
         gmap.panTo(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
       }, (error) => {
         this.$log.error(error);
-      }, { timeout: 5000, enableHighAccuracy: true, maximumAge: 0 });
-      return watchId;
+      }, { timeout: 10000, enableHighAccuracy: true, maximumAge: 0 });
+      this.$log.context('NavigationService.startPosWatch').debug("Started Position Watcher");
+      return this.posWatcher;
     });
+  }
+
+  stopPosWatch() {
+    navigator.geolocation.clearWatch(this.posWatcher);
+    this.posWatcher = null;
+    this.$log.context('NavigationService.stopPosWatch').debug("Position Watcher Halted");
   }
 }
 

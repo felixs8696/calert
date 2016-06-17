@@ -7,15 +7,8 @@ export default class MapCtrl extends Controller {
     // Map Variables
     this.mapObj = Map;
     this.map = Map.map;
+    this.GMap = MapService.GMap;
     this.NavigationService = NavigationService;
-    this.isTracking = false;
-
-    // $scope.$watch(function() {
-    //   return DangerService.getDangerLevel();
-    // }, (newValue, oldValue) => {
-    //   console.log(newValue);
-    //   if (newValue > 0) NavigationService.changeMarkerIcon(MarkerIconService.getDangerMarkerIcon(newValue));
-    // })
 
     uiGmapGoogleMapApi.then((maps)=> {
       // Define Map options that need to interact with the controller
@@ -25,6 +18,11 @@ export default class MapCtrl extends Controller {
         this.mapObj = MapService.mapObj;
         this.GMap = new google.maps.Map(document.getElementById("map"), this.map);
         MapService.initMapMarkers(this.GMap);
+        if (NavigationService.marker.position) {
+          NavigationService.marker.setPosition(NavigationService.marker.position);
+          NavigationService.marker.setMap(this.GMap);
+          this.GMap.panTo(NavigationService.marker.position);
+        }
         // Create a geocoder object to turn latlng object into a place
         this.geocoder = new google.maps.Geocoder;
       }
@@ -33,8 +31,7 @@ export default class MapCtrl extends Controller {
       $scope.$watch(() => {
         return SessionService.inSession;
       }, (sessionStatus, oldStatus) => {
-        if(!this.isTracking && sessionStatus) this.startTracking();
-        if (!sessionStatus) this.stopTracking();
+        if(sessionStatus && sessionStatus != oldStatus) this.startTracking();
       });
     });
   }
@@ -43,11 +40,12 @@ export default class MapCtrl extends Controller {
     if (!this.GMap) this.setMap(Map);
     this.NavigationService.initCurrentPos(this.GMap);
     this.NavigationService.startPosWatch(this.GMap);
-    this.isTracking = true;
+    $log.context('MapCtrl.startTracking').debug('Started Tracking Location');
   }
 
   stopTracking() {
-
+    this.NavigationService.stopPosWatch();
+    $log.context('MapCtrl.stopTracking').debug('Stopped Tracking Location');
   }
 }
 

@@ -1,14 +1,21 @@
 import { Controller } from '../entities';
 
 export default class MainCtrl extends Controller {
-  constructor($scope, $state, $ionicModal, SessionService, DangerService) {
+  constructor($scope, $state, $ionicModal, SessionService, DangerService, $log) {
     super(...arguments);
     this.$state = $state;
+    this.$log = $log;
     this.SessionService = SessionService;
+    this.DangerService = DangerService;
     this.dangerLevel = DangerService.dangerLevel;
-    this.increaseDanger = DangerService.increaseDanger;
     this.decreaseDanger = DangerService.decreaseDanger;
     this.resetSession = DangerService.resetSession;
+
+    $scope.$watch(function(){
+      return DangerService.getDangerLevel()
+    },(newValue, oldValue)=>{
+      this.dangerLevel = newValue;
+    });
 
     $ionicModal.fromTemplateUrl('client/templates/safe.form.html', {
       scope: $scope,
@@ -23,20 +30,20 @@ export default class MainCtrl extends Controller {
 
   alertPress() {
     this.SessionService.enterSession();
-    this.dangerLevel = this.increaseDanger();
+    this.dangerLevel = this.DangerService.increaseDanger();
   }
 
   markSafe() {
-    this.resetSession();
+    this.SessionService.finishSession();
+    this.DangerService.setDangerLevel(0);
     this.openModal();
-    console.log("Danger Level (Reset): " + this.dangerLevel);
-    console.log("Marked Safe");
+    this.$log.context('MainCtrl.markSafe').info('User ('+ Meteor.userId() + ') Marked Safe');
   }
 
   cancelAlert() {
-    this.resetSession();
-    console.log("Danger Level (Cancel): " + this.dangerLevel);
-    console.log("Alert Canceled");
+    this.SessionService.finishSession();
+    this.DangerService.setDangerLevel(0);
+    this.$log.context("MainCtrl.cancelAlert").info("Alert Canceled");
   }
 
   dangerClass() {
@@ -58,6 +65,7 @@ export default class MainCtrl extends Controller {
 
   openModal(){
     this.$scope.modal.show();
+    this.$log.context().debug("Report Incident Form Opened");
   }
 
   closeModal(){
@@ -66,4 +74,4 @@ export default class MainCtrl extends Controller {
 
 }
 
-MainCtrl.$inject = ['$scope', '$state', '$ionicModal', 'SessionService', 'DangerService'];
+MainCtrl.$inject = ['$scope', '$state', '$ionicModal', 'SessionService', 'DangerService', '$log'];

@@ -18,7 +18,7 @@ import LoginCtrl from '../controllers/login.controller';
 import MainCtrl from '../controllers/main.controller';
 import ChatsCtrl from '../controllers/chats.controller';
 import GlobalCtrl from '../controllers/global.controller';
-import Login from '../services/login.service';
+import LoggerService from '../services/logger.service';
 import MapService from '../services/map.service';
 import MeteorMapService from '../services/map.meteor.service';
 import IntervalService from '../services/interval.service';
@@ -53,7 +53,8 @@ const App = angular.module('calert', [
   cfpLoadingBarProvider.startSize = 0;
   cfpLoadingBarProvider.parentSelector = '#loading-bar-container';
   cfpLoadingBarProvider.includeSpinner = false;
-}]).run(["$rootScope", "$state", function($rootScope, $state) {
+}]).run(["$rootScope", "$state", "LoggerService", "$log", function($rootScope, $state, LoggerService, $log) {
+  LoggerService.setLog($log);
   $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams){
   })
   $rootScope.$on('$stateChangeSuccess', function(e, toState, toParams, fromState, fromParams) {
@@ -82,7 +83,7 @@ const App = angular.module('calert', [
 }]);;
 
 new Definer(App)
-  .define(Login)
+  .define(LoggerService)
   .define(MapService)
   .define(MeteorMapService)
   .define(IntervalService)

@@ -4,12 +4,10 @@ export default class MarkerIconService extends Service {
   constructor(uiGmapGoogleMapApi) {
     super(...arguments);
     uiGmapGoogleMapApi.then((maps)=> {
-      //Map Object Options set in Client when dependent on controller or files
-      // Define Marker Icons to be set later
       var iconSize = new google.maps.Size(28, 38);
       this.markerIcons = {
         danger1: {url: "markers/marker-1.svg", scaledSize: iconSize},
-        danger2: {url: "/public/markers/marker-2.svg", scaledSize: iconSize},
+        danger2: {url: "markers/marker-2.svg", scaledSize: iconSize},
         danger3: {url: "markers/marker-3.svg", scaledSize: iconSize},
         info: {url: "markers/marker-i.svg", scaledSize: iconSize}
       };

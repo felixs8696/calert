@@ -9,14 +9,14 @@ export default class SessionService extends Service {
   enterSession() {
     if (!this.inSession) {
       this.inSession = true;
-      this.$log.info("Danger Session Entered")
+      this.$log.context('SessionService.enterSession').debug("Alert Session Entered")
     }
   }
 
   finishSession() {
     if (this.inSession) {
       this.inSession = false;
-      this.$log.info("Danger Session Ended")
+      this.$log.context('SessionService.finishSession').debug("Alert Session Ended")
     }
   }
 

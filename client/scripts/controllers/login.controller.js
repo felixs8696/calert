@@ -1,7 +1,7 @@
 import { Controller } from '../entities';
 
 export default class LoginCtrl extends Controller {
-  constructor($scope, $reactive, $log, $state, Login, $ionicHistory) {
+  constructor($scope, $reactive, $log, $state, $ionicHistory) {
     super(...arguments);
     $reactive(this).attach($scope);
     this.credentials = {};
@@ -23,7 +23,7 @@ export default class LoginCtrl extends Controller {
       this.$bindToContext((err) => {
         if (err) {
           this.error = err;
-          this.$log.error(err);
+          this.$log.context('LoginCtrl.login').error(err);
         } else {
           this.$state.go('app.main');
         }
@@ -32,4 +32,4 @@ export default class LoginCtrl extends Controller {
   };
 }
 
-LoginCtrl.$inject = ['$scope', '$reactive', '$log', '$state', 'Login', '$ionicHistory'];
+LoginCtrl.$inject = ['$scope', '$reactive', '$log', '$state', '$ionicHistory'];
