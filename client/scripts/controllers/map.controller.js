@@ -1,15 +1,21 @@
 import { Controller } from '../entities';
 
 export default class MapCtrl extends Controller {
-  constructor($scope, $log, uiGmapGoogleMapApi, Map, MapService, MarkerIconService, NavigationService, SessionService) {
+  constructor($scope, $log, uiGmapGoogleMapApi, Map, MapService, MarkerIconService, NavigationService, SessionService, DangerService) {
     super(...arguments);
 
     // Map Variables
-    // this.control = {};
     this.mapObj = Map;
     this.map = Map.map;
     this.NavigationService = NavigationService;
     this.isTracking = false;
+
+    // $scope.$watch(function() {
+    //   return DangerService.getDangerLevel();
+    // }, (newValue, oldValue) => {
+    //   console.log(newValue);
+    //   if (newValue > 0) NavigationService.changeMarkerIcon(MarkerIconService.getDangerMarkerIcon(newValue));
+    // })
 
     uiGmapGoogleMapApi.then((maps)=> {
       // Define Map options that need to interact with the controller
@@ -18,6 +24,7 @@ export default class MapCtrl extends Controller {
         this.map = MapService.map;
         this.mapObj = MapService.mapObj;
         this.GMap = new google.maps.Map(document.getElementById("map"), this.map);
+        MapService.initMapMarkers(this.GMap);
         // Create a geocoder object to turn latlng object into a place
         this.geocoder = new google.maps.Geocoder;
       }
@@ -44,4 +51,4 @@ export default class MapCtrl extends Controller {
   }
 }
 
-MapCtrl.$inject = ['$scope', '$log', 'uiGmapGoogleMapApi', 'Map', 'MapService', 'MarkerIconService', 'NavigationService', 'SessionService'];
+MapCtrl.$inject = ['$scope', '$log', 'uiGmapGoogleMapApi', 'Map', 'MapService', 'MarkerIconService', 'NavigationService', 'SessionService', 'DangerService'];

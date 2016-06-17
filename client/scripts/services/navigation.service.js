@@ -1,24 +1,33 @@
 import { Service } from '../entities';
 
 export default class NavigationService extends Service {
-  constructor($log, uiGmapGoogleMapApi, MapService, IntervalService, cfpLoadingBar) {
+  constructor($log, uiGmapGoogleMapApi, MapService, IntervalService, cfpLoadingBar, MarkerIconService) {
     super(...arguments);
     this.$log = $log;
     this.MapService = MapService;
     this.IntervalService = IntervalService;
     this.uiGmapGoogleMapApi = uiGmapGoogleMapApi;
     this.cfpLoadingBar = cfpLoadingBar;
-    this.marker = null;
+    uiGmapGoogleMapApi.then(() => {
+      this.marker = new google.maps.Marker();
+    });
   }
+
+  changeMarkerIcon(icon) {
+    this.marker.setIcon(icon);
+  }
+
   initCurrentPos(gmap) {
     this.cfpLoadingBar.start();
     this.uiGmapGoogleMapApi.then(() => {
       navigator.geolocation.getCurrentPosition((pos) => {
         var latlng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-        this.marker = new google.maps.Marker({
-          position: latlng,
-          map: gmap
-        });
+        this.marker.setPosition(latlng);
+        this.marker.setMap(gmap);
+        // this.marker = new google.maps.Marker({
+        //   position: latlng,
+        //   map: gmap
+        // });
         gmap.panTo(latlng);
         this.cfpLoadingBar.complete();
       }, (error) => {
@@ -67,4 +76,4 @@ export default class NavigationService extends Service {
   }
 }
 
-NavigationService.$inject = ['$log','uiGmapGoogleMapApi', 'MapService', 'IntervalService', 'cfpLoadingBar'];
+NavigationService.$inject = ['$log','uiGmapGoogleMapApi', 'MapService', 'IntervalService', 'cfpLoadingBar', 'MarkerIconService'];

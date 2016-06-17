@@ -15,6 +15,17 @@ export default class MarkerIconService extends Service {
       };
     });
   }
+
+  getDangerMarkerIcon(index) {
+    if (index >= 1 && index <= 3) {
+      var key = 'danger' + index;
+      return this.markerIcons[key];
+    }
+  }
+
+  getInfoMarkerIcon() {
+    return this.markerIcons['info'];
+  }
 }
 
 MarkerIconService.$inject = ['uiGmapGoogleMapApi'];

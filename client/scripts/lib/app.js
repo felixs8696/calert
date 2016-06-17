@@ -25,6 +25,8 @@ import IntervalService from '../services/interval.service';
 import SessionService from '../services/session.service';
 import MarkerIconService from '../services/markericon.service';
 import NavigationService from '../services/navigation.service';
+import DangerService from '../services/danger.service';
+import MarkerService from '../services/marker.service';
 import DateFilter from '../filters/date.filter';
 import ChatCtrl from '../controllers/chat.controller';
 import InputDirective from '../directives/input.directive';
@@ -87,6 +89,8 @@ new Definer(App)
   .define(SessionService)
   .define(MarkerIconService)
   .define(NavigationService)
+  .define(MarkerService)
+  .define(DangerService)
   .define(DateFilter)
   .define(InputDirective)
   .define(ChatsCtrl)

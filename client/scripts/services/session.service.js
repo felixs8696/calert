@@ -1,16 +1,23 @@
 import { Service } from '../entities';
 
 export default class SessionService extends Service {
-  constructor() {
+  constructor($log) {
     super(...arguments);
     this.inSession = false;
+    this.$log = $log;
   }
   enterSession() {
-    this.inSession = true;
+    if (!this.inSession) {
+      this.inSession = true;
+      this.$log.info("Danger Session Entered")
+    }
   }
 
   finishSession() {
-    this.inSession = false;
+    if (this.inSession) {
+      this.inSession = false;
+      this.$log.info("Danger Session Ended")
+    }
   }
 
   sessionStatus() {
@@ -19,4 +26,4 @@ export default class SessionService extends Service {
 
 }
 
-SessionService.$inject = [];
+SessionService.$inject = ['$log'];

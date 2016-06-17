@@ -1,11 +1,14 @@
 import { Controller } from '../entities';
 
 export default class MainCtrl extends Controller {
-  constructor($scope, $state, $ionicModal, SessionService) {
+  constructor($scope, $state, $ionicModal, SessionService, DangerService) {
     super(...arguments);
     this.$state = $state;
     this.SessionService = SessionService;
-    this.dangerLevel = 0;
+    this.dangerLevel = DangerService.dangerLevel;
+    this.increaseDanger = DangerService.increaseDanger;
+    this.decreaseDanger = DangerService.decreaseDanger;
+    this.resetSession = DangerService.resetSession;
 
     $ionicModal.fromTemplateUrl('client/templates/safe.form.html', {
       scope: $scope,
@@ -20,20 +23,7 @@ export default class MainCtrl extends Controller {
 
   alertPress() {
     this.SessionService.enterSession();
-    console.log(this.SessionService.sessionStatus());
-    var danger = this.increaseDanger();
-    console.log("Danger Level (+): " + danger);
-  }
-
-  increaseDanger() {
-    if (this.dangerLevel < 3) this.dangerLevel += 1;
-    return this.dangerLevel;
-  }
-
-  decreaseDanger() {
-    if (this.dangerLevel > 0) this.dangerLevel -= 1;
-    if (this.dangerLevel == 0) this.SessionService.finishSession();
-    console.log("Danger Level (-): " + this.dangerLevel);
+    this.dangerLevel = this.increaseDanger();
   }
 
   markSafe() {
@@ -47,11 +37,6 @@ export default class MainCtrl extends Controller {
     this.resetSession();
     console.log("Danger Level (Cancel): " + this.dangerLevel);
     console.log("Alert Canceled");
-  }
-
-  resetSession() {
-    this.SessionService.finishSession();
-    this.dangerLevel = 0;
   }
 
   dangerClass() {
@@ -81,4 +66,4 @@ export default class MainCtrl extends Controller {
 
 }
 
-MainCtrl.$inject = ['$scope', '$state', '$ionicModal', 'SessionService'];
+MainCtrl.$inject = ['$scope', '$state', '$ionicModal', 'SessionService', 'DangerService'];

@@ -1,13 +1,15 @@
 import { Service } from '../entities';
 
 export default class MapService extends Service {
-  constructor(uiGmapGoogleMapApi, $log) {
+  constructor(uiGmapGoogleMapApi, $log, $filter, MarkerService) {
     super(...arguments);
     this.map = undefined;
     this.mapObj = undefined;
     // this.GMap = undefined;
     this.uiGmapGoogleMapApi = uiGmapGoogleMapApi;
+    this.MarkerService = MarkerService;
     this.$log = $log;
+    this.$filter = $filter;
   }
   initMap(Map) {
     this.uiGmapGoogleMapApi.then((maps) => {
@@ -31,6 +33,25 @@ export default class MapService extends Service {
       this.map = Map.map;
       this.mapObj = Map;
       this.$log.info("Map set", Map);
+    });
+  }
+
+  initMapMarkers(gmap) {
+    this.uiGmapGoogleMapApi.then((maps) => {
+      console.log(this.map.markers);
+      for (var i = 0; i < this.map.markers.length; i++) {
+        var marker = this.map.markers[i];
+        var newMarker = new google.maps.Marker({
+          position: {lat: marker.latitude, lng: marker.longitude},
+          map: gmap,
+          icon: marker.icon,
+          _id: marker._id,
+          id: marker.id,
+          content: marker.content,
+          mapId: marker.mapId
+        });
+        this.MarkerService.addMarker(newMarker);
+      }
     });
   }
 
@@ -60,4 +81,4 @@ export default class MapService extends Service {
   }
 }
 
-MapService.$inject = ['uiGmapGoogleMapApi', '$log'];
+MapService.$inject = ['uiGmapGoogleMapApi', '$log', '$filter', 'MarkerService'];
