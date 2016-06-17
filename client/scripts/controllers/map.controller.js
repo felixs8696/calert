@@ -3,6 +3,7 @@ import { Controller } from '../entities';
 export default class MapCtrl extends Controller {
   constructor($scope, $log, uiGmapGoogleMapApi, Map, MapService, MarkerIconService, NavigationService, SessionService, DangerService) {
     super(...arguments);
+    this.$log = $log;
 
     // Map Variables
     this.mapObj = Map;
@@ -18,11 +19,13 @@ export default class MapCtrl extends Controller {
         this.mapObj = MapService.mapObj;
         this.GMap = new google.maps.Map(document.getElementById("map"), this.map);
         MapService.initMapMarkers(this.GMap);
-        if (NavigationService.marker.position) {
-          NavigationService.marker.setPosition(NavigationService.marker.position);
-          NavigationService.marker.setMap(this.GMap);
-          this.GMap.panTo(NavigationService.marker.position);
-        }
+        NavigationService.setTrackedMarker(NavigationService.marker.position, this.GMap);
+        // if (NavigationService.marker.position) {
+        //   NavigationService.marker.setPosition(NavigationService.marker.position);
+        //   NavigationService.marker.setMap(this.GMap);
+        //   this.GMap.panTo(NavigationService.marker.position);
+        //   this.GMap.setZoom(18);
+        // }
         // Create a geocoder object to turn latlng object into a place
         this.geocoder = new google.maps.Geocoder;
       }
@@ -40,12 +43,12 @@ export default class MapCtrl extends Controller {
     if (!this.GMap) this.setMap(Map);
     this.NavigationService.initCurrentPos(this.GMap);
     this.NavigationService.startPosWatch(this.GMap);
-    $log.context('MapCtrl.startTracking').debug('Started Tracking Location');
+    this.$log.context('MapCtrl.startTracking').debug('Started Tracking Location');
   }
 
   stopTracking() {
     this.NavigationService.stopPosWatch();
-    $log.context('MapCtrl.stopTracking').debug('Stopped Tracking Location');
+    this.$log.context('MapCtrl.stopTracking').debug('Stopped Tracking Location');
   }
 }
 

@@ -26,12 +26,10 @@ export default class NavigationService extends Service {
     this.uiGmapGoogleMapApi.then(() => {
       navigator.geolocation.getCurrentPosition((pos) => {
         var latlng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-        this.marker.setPosition(latlng);
-        this.marker.setMap(gmap);
-        gmap.panTo(latlng);
+        this.setTrackedMarker(latlng, gmap);
         this.cfpLoadingBar.complete();
       }, (error) => {
-        this.$log.error(error);
+        this.$log.context('NavigationService.initCurrentPos').error(error);
       });
     });
     this.$log.context('NavigationService.initCurrentPos').debug("Current position found. Tracking Marker Set.");
@@ -70,7 +68,7 @@ export default class NavigationService extends Service {
         this.$log.context('NavigationService.startPosWatch.posWatcher').log('Location Update:' + newPos);
         gmap.panTo(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
       }, (error) => {
-        this.$log.error(error);
+        this.$log.context('NavigationService.startPosWatch.posWatcher').error(error);
       }, { timeout: 10000, enableHighAccuracy: true, maximumAge: 0 });
       this.$log.context('NavigationService.startPosWatch').debug("Started Position Watcher");
       return this.posWatcher;
@@ -81,6 +79,15 @@ export default class NavigationService extends Service {
     navigator.geolocation.clearWatch(this.posWatcher);
     this.posWatcher = null;
     this.$log.context('NavigationService.stopPosWatch').debug("Position Watcher Halted");
+  }
+
+  setTrackedMarker(markerPosition, gmap) {
+    if (markerPosition) {
+      this.marker.setPosition(markerPosition);
+      this.marker.setMap(gmap);
+      gmap.panTo(markerPosition);
+      gmap.setZoom(18);
+    }
   }
 }
 
