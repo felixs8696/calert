@@ -29,6 +29,9 @@ export default class NavigationService extends Service {
         this.cfpLoadingBar.complete();
       }, (error) => {
         this.$log.context('NavigationService.initCurrentPos').error(angular.toJson(error));
+        if (error.code == error.PERMISSION_DENIED) {
+          this.$log.context('NavigationService.initCurrentPos').warn('Location Services not on');
+        }
       });
     });
     this.$log.context('NavigationService.initCurrentPos').debug("Current position found. Tracking Marker Set.");
@@ -61,6 +64,7 @@ export default class NavigationService extends Service {
       this.posWatcher = navigator.geolocation.watchPosition((position) => {
         // TODO: Turn geocoder back on once you figure out what to do with it.
         // this.MapService.geocodeLatLng(this.geocoder, gmap, position.coords.latitude, position.coords.longitude);
+        console.log(this.marker);
         var pos = {lat: this.marker.position.lat(), lng: this.marker.position.lng()};
         var newPos = {lat: position.coords.latitude, lng: position.coords.longitude};
         var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
@@ -70,6 +74,9 @@ export default class NavigationService extends Service {
         this.fitBounds(gmap, this.marker.position);
       }, (error) => {
         this.$log.context('NavigationService.startPosWatch.posWatcher').error(angular.toJson(error));
+        if (error.code == error.PERMISSION_DENIED) {
+          this.$log.context('NavigationService.initCurrentPos').warn('Location Services not on');
+        }
       }, { timeout: 10000, enableHighAccuracy: true, maximumAge: 0 });
       this.$log.context('NavigationService.startPosWatch').debug("Started Position Watcher");
       return this.posWatcher;

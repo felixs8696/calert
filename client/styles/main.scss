@@ -16,18 +16,23 @@
 
 .logo-container {
   position: absolute;
-  top: 4em;
+  top: 9vh;
   left: 50%;
   transform: translateX(-50%);
   -webkit-transform: translateX(-50%);
   text-align: center;
 }
 
+.logo-img {
+  width: 70vw;
+  max-width: 300px;
+}
+
 .button-container {
   width: 260px;
   height: 274px;
   position: absolute;
-  top: calc(50vh + 1.5em);
+  top: 50vh;
   left: 50%;
   transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
