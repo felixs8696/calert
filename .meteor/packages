@@ -23,3 +23,6 @@ fourseven:scss
 check
 accounts-password
 dotansimha:accounts-ui-angular
+mrt:jquery-easing
+dburles:google-maps
+adamkaczmarzyk:marker-animate-unobtrusive

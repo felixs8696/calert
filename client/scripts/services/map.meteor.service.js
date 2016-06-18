@@ -7,13 +7,13 @@ export default class MeteorMapService extends Service {
   }
   getMap(name, callback) {
     Meteor.call('getMap', name, function (error, map) {
-      if (error) this.$log.context('MeteorMapService.getMap').error(error);
+      if (error) this.$log.context('MeteorMapService.getMap').error(angular.toJson(error));
       if (callback) callback(map);
     });
   }
   addMap(map, callback) {
     Meteor.call('addMap', map, function(error, recMap) {
-      if (error) $log.context('MeteorMapService.addMap').error(error);
+      if (error) $log.context('MeteorMapService.addMap').error(angular.toJson(error));
       if (callback) callback(recMap);
     });
   }

@@ -1,7 +1,7 @@
 import { Controller } from '../entities';
 
 export default class MapCtrl extends Controller {
-  constructor($scope, $log, uiGmapGoogleMapApi, Map, MapService, MarkerIconService, NavigationService, SessionService, DangerService) {
+  constructor($scope, $log, uiGmapGoogleMapApi, Map, MapService, MarkerIconService, NavigationService, SessionService, DangerService, PlatformService) {
     super(...arguments);
     this.$log = $log;
 
@@ -19,6 +19,7 @@ export default class MapCtrl extends Controller {
         this.mapObj = MapService.mapObj;
         this.GMap = new google.maps.Map(document.getElementById("map"), this.map);
         MapService.initMapMarkers(this.GMap);
+        if (PlatformService.isMobile()) this.GMap.draggable = true;
         if (this.NavigationService.isTracking()) NavigationService.setTrackedMarker(NavigationService.marker.position, this.GMap);
         // if (NavigationService.marker.position) {
         //   NavigationService.marker.setPosition(NavigationService.marker.position);
@@ -34,7 +35,6 @@ export default class MapCtrl extends Controller {
       $scope.$watch(() => {
         return SessionService.inSession;
       }, (sessionStatus, oldStatus) => {
-        console.log(oldStatus + " to " + sessionStatus + " Is tracking: "+ this.NavigationService.isTracking());
         if(sessionStatus && !this.NavigationService.isTracking()) this.startTracking();
         if(!sessionStatus) this.stopTracking();
       });
@@ -55,4 +55,4 @@ export default class MapCtrl extends Controller {
   }
 }
 
-MapCtrl.$inject = ['$scope', '$log', 'uiGmapGoogleMapApi', 'Map', 'MapService', 'MarkerIconService', 'NavigationService', 'SessionService', 'DangerService'];
+MapCtrl.$inject = ['$scope', '$log', 'uiGmapGoogleMapApi', 'Map', 'MapService', 'MarkerIconService', 'NavigationService', 'SessionService', 'DangerService', 'PlatformService'];

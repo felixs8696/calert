@@ -68,14 +68,14 @@ export default class MapService extends Service {
               if (status == google.maps.places.PlacesServiceStatus.OK) {
                 this.$log.context('MapService.geocodeLatLng').log("Lat: " + place.geometry.location.lat() + ", Lng: " + place.geometry.location.lng() + ", Addr: " + place.formatted_address);
               } else {
-                this.$log.context('MapService.geocodeLatLng').error(status);
+                this.$log.context('MapService.geocodeLatLng').error(angular.toJson(status));
               }
             });
           } else {
             this.$log.context('MapService.geocodeLatLng').warn('No results found');
           }
         } else {
-          this.$log.context('MapService.geocodeLatLng').error('Geocoder failed due to: ' + status);
+          this.$log.context('MapService.geocodeLatLng').error('Geocoder failed due to: ' + angular.toJson(status));
         }
       });
     })

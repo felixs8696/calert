@@ -14,7 +14,7 @@ export default class MenuCtrl extends Controller {
       disableBack: true
     });
     Accounts.logout((error) => {
-      if (error) $log.context('MenuCtrl.logout').error(error);
+      if (error) $log.context('MenuCtrl.logout').error(angular.toJson(error));
       else this.$state.go('login');
     });
   }

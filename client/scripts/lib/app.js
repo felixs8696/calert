@@ -9,6 +9,7 @@ import 'ionic-scripts';
 import 'angular-simple-logger';
 import 'angular-google-maps';
 import 'angular-loading-bar';
+import SlidingMarker from 'marker-animate-unobtrusive';
 import Definer from '../definer';
 import RoutesConfig from '../routes';
 import MenuCtrl from '../controllers/menu.controller';
@@ -18,6 +19,7 @@ import LoginCtrl from '../controllers/login.controller';
 import MainCtrl from '../controllers/main.controller';
 import ChatsCtrl from '../controllers/chats.controller';
 import GlobalCtrl from '../controllers/global.controller';
+import PlatformService from '../services/platform.service';
 import LoggerService from '../services/logger.service';
 import MapService from '../services/map.service';
 import MeteorMapService from '../services/map.meteor.service';
@@ -44,6 +46,11 @@ const App = angular.module('calert', [
   'uiGmapgoogle-maps',
   'cfp.loadingBar'
 ]).config(['uiGmapGoogleMapApiProvider', '$urlRouterProvider', 'cfpLoadingBarProvider', function(uiGmapGoogleMapApiProvider, $urlRouterProvider, cfpLoadingBarProvider) {
+  GoogleMaps.loadUtilityLibrary('/packages/adamkaczmarzyk_marker-animate-unobtrusive/marker-animate-unobtrusive/vendor/markerAnimate.js')
+  GoogleMaps.loadUtilityLibrary('/packages/adamkaczmarzyk_marker-animate-unobtrusive/marker-animate-unobtrusive/SlidingMarker.js')
+  GoogleMaps.ready('map', function(map) {
+    SlidingMarker.initializeGlobally();
+  });
   uiGmapGoogleMapApiProvider.configure({
       key: 'AIzaSyCS91b3IpVVqYikQ69nNdoz_Za9S98qt8A',
       v: '3.24', //defaults to latest 3.X anyhow
@@ -53,8 +60,9 @@ const App = angular.module('calert', [
   cfpLoadingBarProvider.startSize = 0;
   cfpLoadingBarProvider.parentSelector = '#loading-bar-container';
   cfpLoadingBarProvider.includeSpinner = false;
-}]).run(["$rootScope", "$state", "LoggerService", "$log", function($rootScope, $state, LoggerService, $log) {
+}]).run(["$rootScope", "$state", "LoggerService", "$log", "PlatformService", function($rootScope, $state, LoggerService, $log, PlatformService) {
   LoggerService.setLog($log);
+  $log.context('app.run').info("Running on "+PlatformService.platform+" platform");
   $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams){
   })
   $rootScope.$on('$stateChangeSuccess', function(e, toState, toParams, fromState, fromParams) {
@@ -83,6 +91,7 @@ const App = angular.module('calert', [
 }]);;
 
 new Definer(App)
+  .define(PlatformService)
   .define(LoggerService)
   .define(MapService)
   .define(MeteorMapService)

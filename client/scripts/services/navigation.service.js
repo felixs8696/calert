@@ -9,9 +9,11 @@ export default class NavigationService extends Service {
     this.uiGmapGoogleMapApi = uiGmapGoogleMapApi;
     this.cfpLoadingBar = cfpLoadingBar;
     this.posWatcher = null;
-    uiGmapGoogleMapApi.then(() => {
-      this.marker = new google.maps.Marker();
-    });
+    // uiGmapGoogleMapApi.then(() => {
+    //   this.marker = new google.maps.Marker();
+    // });
+    var SlidingMarker = require('marker-animate-unobtrusive');
+    this.marker = new SlidingMarker();
   }
 
   changeMarkerIcon(icon) {
@@ -29,7 +31,7 @@ export default class NavigationService extends Service {
         this.setTrackedMarker(latlng, gmap);
         this.cfpLoadingBar.complete();
       }, (error) => {
-        this.$log.context('NavigationService.initCurrentPos').error(error);
+        this.$log.context('NavigationService.initCurrentPos').error(angular.toJson(error));
       });
     });
     this.$log.context('NavigationService.initCurrentPos').debug("Current position found. Tracking Marker Set.");
@@ -64,11 +66,13 @@ export default class NavigationService extends Service {
         // this.MapService.geocodeLatLng(this.geocoder, gmap, position.coords.latitude, position.coords.longitude);
         var pos = {lat: this.marker.position.lat(), lng: this.marker.position.lng()};
         var newPos = {lat: position.coords.latitude, lng: position.coords.longitude};
-        transition(pos, newPos);
+        var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        // transition(pos, newPos);
+        this.marker.setPosition(latlng);
         this.$log.context('NavigationService.startPosWatch.posWatcher').log('Location Update:' + newPos);
-        gmap.panTo(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+        gmap.panTo(latlng);
       }, (error) => {
-        this.$log.context('NavigationService.startPosWatch.posWatcher').error(error);
+        this.$log.context('NavigationService.startPosWatch.posWatcher').error(angular.toJson(error));
       }, { timeout: 10000, enableHighAccuracy: true, maximumAge: 0 });
       this.$log.context('NavigationService.startPosWatch').debug("Started Position Watcher");
       return this.posWatcher;
