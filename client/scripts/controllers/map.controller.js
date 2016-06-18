@@ -10,6 +10,10 @@ export default class MapCtrl extends Controller {
     this.map = Map.map;
     this.GMap = MapService.GMap;
     this.NavigationService = NavigationService;
+    if (PlatformService.isMobile()) {
+      console.log((window.innerHeight - 43) + 'px')
+      document.getElementById("map").style.height = window.innerHeight - 43 + 'px';
+    }
 
     uiGmapGoogleMapApi.then((maps)=> {
       // Define Map options that need to interact with the controller
@@ -21,12 +25,6 @@ export default class MapCtrl extends Controller {
         MapService.initMapMarkers(this.GMap);
         if (PlatformService.isMobile()) this.GMap.draggable = true;
         if (this.NavigationService.isTracking()) NavigationService.setTrackedMarker(NavigationService.marker.position, this.GMap);
-        // if (NavigationService.marker.position) {
-        //   NavigationService.marker.setPosition(NavigationService.marker.position);
-        //   NavigationService.marker.setMap(this.GMap);
-        //   this.GMap.panTo(NavigationService.marker.position);
-        //   this.GMap.setZoom(18);
-        // }
         // Create a geocoder object to turn latlng object into a place
         this.geocoder = new google.maps.Geocoder;
       }

@@ -9,11 +9,8 @@ export default class NavigationService extends Service {
     this.uiGmapGoogleMapApi = uiGmapGoogleMapApi;
     this.cfpLoadingBar = cfpLoadingBar;
     this.posWatcher = null;
-    // uiGmapGoogleMapApi.then(() => {
-    //   this.marker = new google.maps.Marker();
-    // });
     var SlidingMarker = require('marker-animate-unobtrusive');
-    this.marker = new SlidingMarker();
+    this.marker = new SlidingMarker({duration: 1000});
   }
 
   changeMarkerIcon(icon) {
@@ -69,8 +66,8 @@ export default class NavigationService extends Service {
         var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
         // transition(pos, newPos);
         this.marker.setPosition(latlng);
-        this.$log.context('NavigationService.startPosWatch.posWatcher').log('Location Update:' + newPos);
-        gmap.panTo(latlng);
+        // this.$log.context('NavigationService.startPosWatch.posWatcher').log('Location Update:' + newPos);
+        this.fitBounds(gmap, this.marker.position);
       }, (error) => {
         this.$log.context('NavigationService.startPosWatch.posWatcher').error(angular.toJson(error));
       }, { timeout: 10000, enableHighAccuracy: true, maximumAge: 0 });
@@ -89,8 +86,7 @@ export default class NavigationService extends Service {
     if (markerPosition) {
       this.marker.setPosition(markerPosition);
       this.marker.setMap(gmap);
-      gmap.panTo(markerPosition);
-      gmap.setZoom(18);
+      this.fitBounds(gmap, markerPosition);
     }
   }
 
@@ -104,6 +100,30 @@ export default class NavigationService extends Service {
 
   isTracking() {
     return this.startedTracking;
+  }
+
+  fitBounds(gmap, markerPosition) {
+    var ne = gmap.getBounds().getNorthEast();
+    var sw = gmap.getBounds().getSouthWest();
+    var topLat = ne.lat();
+    var rightLng = ne.lng();
+    var bottomLat = sw.lat();
+    var leftLng = sw.lng();
+    var dstTop = Math.abs(topLat - markerPosition.lat());
+    var dstBottom = Math.abs(markerPosition.lat() - bottomLat);
+    var dstRight = Math.abs(rightLng - markerPosition.lng());
+    var dstLeft = Math.abs(markerPosition.lng() - leftLng);
+    if(!gmap.getBounds().contains(markerPosition) || dstTop <= 0.005 || dstBottom <= 0.005 || dstRight <= 0.005 || dstLeft <= 0.005) {
+      var bounds = new google.maps.LatLngBounds();
+      bounds.extend(markerPosition);
+      if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+         var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.005, bounds.getNorthEast().lng() + 0.005);
+         var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.005, bounds.getNorthEast().lng() - 0.005);
+         bounds.extend(extendPoint1);
+         bounds.extend(extendPoint2);
+      }
+      gmap.fitBounds(bounds);
+    }
   }
 }
 
