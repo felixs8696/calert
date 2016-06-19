@@ -9,6 +9,7 @@ import 'ionic-scripts';
 import 'angular-simple-logger';
 import 'angular-google-maps';
 import 'angular-loading-bar';
+import 'angular-messages';
 import SlidingMarker from 'marker-animate-unobtrusive';
 import Definer from '../definer';
 import RoutesConfig from '../routes';
@@ -44,7 +45,8 @@ const App = angular.module('calert', [
   'ionic',
   'nemLogging',
   'uiGmapgoogle-maps',
-  'cfp.loadingBar'
+  'cfp.loadingBar',
+  'ngMessages'
 ]).config(['uiGmapGoogleMapApiProvider', '$urlRouterProvider', 'cfpLoadingBarProvider', function(uiGmapGoogleMapApiProvider, $urlRouterProvider, cfpLoadingBarProvider) {
   GoogleMaps.loadUtilityLibrary('/packages/adamkaczmarzyk_marker-animate-unobtrusive/marker-animate-unobtrusive/vendor/markerAnimate.js')
   GoogleMaps.loadUtilityLibrary('/packages/adamkaczmarzyk_marker-animate-unobtrusive/marker-animate-unobtrusive/SlidingMarker.js')

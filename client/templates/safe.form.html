@@ -1,25 +1,49 @@
+<script id="templates/form-errors.html" type="text/ng-template">
+  <div class="form-error" ng-message="required">This field is required.</div>
+  <div class="form-error" ng-message="minlength">This field is must be at least 5 characters.</div>
+  <div class="form-error" ng-message="maxlength">This field is must be less than 50 characters</div>
+</script>
 <ion-modal-view>
-  <form name="safeForm">
-    <ion-header-bar class="bar-positive">
-      <a class="button" ng-click="vm.closeModal()">Cancel</a>
-      <h1 class="title">Report Incident</h1>
-      <a class="button" ng-click="vm.saveDraft()">Save Draft</a>
-    </ion-header-bar>
-    <ion-content has-bouncing="true">
+  <ion-header-bar class="bar-stable">
+    <button class="button button-clear modal-button" ng-click="vm.saveDraft()">
+      <!-- <i class="icon modal-icon ion-bookmark"></i> -->
+      Save
+    </button>
+    <h1 class="title">Report Incident</h1>
+    <button class="button button-clear modal-button" ng-click="vm.closeModal()">
+      <i class="icon modal-icon ion-android-close"></i>
+    </button>
+  </ion-header-bar>
+  <ion-content has-bouncing="true">
+    <form name="safeForm" novalidate="" ng-submit="vm.submit(vm.event)">
       <div class="list">
-        <label class="item item-input item-floating-label">
-          <span class="input-label">First Name</span>
-          <input type="text" placeholder="First Name">
+        <label class="item item-input item-floating-label" ng-class="{ 'has-error' : safeForm.eventTitle.$invalid && safeForm.$submitted, 'input-focused': etFocus}">
+          <span class="input-label" ng-class="{'input-focused': etFocus}">Event Title</span>
+          <input type="text" ng-init="etFocus = false" ng-focus="etFocus = true" ng-blur="etFocus = false" placeholder="Event Title" name="eventTitle" ng-model="vm.event.eventTitle" required>
         </label>
-        <label class="item item-input item-floating-label">
-          <span class="input-label">Last Name</span>
-          <input type="text" placeholder="Last Name">
+        <!-- <div ng-messages="safeForm.eventTitle.$error">
+          <div ng-messages-include="templates/form-errors.html"></div>
+        </div> -->
+        <label class="item item-input item-floating-label" ng-class="{ 'has-error' : safeForm.time.$invalid && safeForm.$submitted, 'input-focused': tiFocus}">
+          <span class="input-label" ng-class="{'input-focused': tiFocus}">Time</span>
+          <input type="time" ng-init="tiFocus = false" ng-focus="tiFocus = true" ng-blur="tiFocus = false" placeholder="Time" name="time" ng-model="vm.event.time" value="" required>
         </label>
-        <label class="item item-input item-floating-label">
-          <span class="input-label">Email</span>
-          <input type="text" placeholder="Email">
+        <label class="item item-input item-floating-label" ng-class="{ 'has-error' : safeForm.firstName.$invalid && safeForm.$submitted, 'input-focused': fnFocus}">
+          <span class="input-label" ng-class="{'input-focused': fnFocus}">First Name</span>
+          <input type="text" ng-init="fnFocus = false" ng-focus="fnFocus = true" ng-blur="fnFocus = false" placeholder="First Name" name="firstName" ng-model="vm.event.firstName" required>
         </label>
+        <label class="item item-input item-floating-label" ng-class="{ 'has-error' : safeForm.lastName.$invalid && safeForm.$submitted, 'input-focused': lnFocus}">
+          <span class="input-label" ng-class="{'input-focused': lnFocus}">Last Name</span>
+          <input type="text" ng-init="lnFocus = false" ng-focus="lnFocus = true" ng-blur="lnFocus = false" placeholder="Last Name" name="lastName" ng-model="vm.event.lastName" required>
+        </label>
+        <label class="item item-input item-floating-label" ng-class="{ 'has-error' : safeForm.email.$invalid && safeForm.$submitted, 'input-focused': emFocus}">
+          <span class="input-label" ng-class="{'input-focused': emFocus}">Email</span>
+          <input type="email" ng-init="emFocus = false" ng-focus="emFocus = true" ng-blur="emFocus = false" placeholder="Email" name="email" ng-model="vm.event.email" required>
+        </label>
+        <div class="padding">
+          <button type="submit" class="button button-block button-stable" ng-click="vm.submit(vm.event)">Submit</button>
+        </div>
       </div>
-    </ion-content>
-  </form>
+    </form>
+  </ion-content>
 </ion-modal-view>

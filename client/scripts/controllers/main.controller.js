@@ -5,6 +5,7 @@ export default class MainCtrl extends Controller {
     super(...arguments);
     this.$state = $state;
     this.$log = $log;
+    this.event = {};
     this.SessionService = SessionService;
     this.DangerService = DangerService;
     this.dangerLevel = DangerService.dangerLevel;
@@ -69,6 +70,7 @@ export default class MainCtrl extends Controller {
   }
 
   closeModal(){
+    this.event = {};
     this.$scope.modal.hide();
   }
 

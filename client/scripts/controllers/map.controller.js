@@ -10,10 +10,7 @@ export default class MapCtrl extends Controller {
     this.map = Map.map;
     this.GMap = MapService.GMap;
     this.NavigationService = NavigationService;
-    if (PlatformService.isMobile()) {
-      console.log((window.innerHeight - 43) + 'px')
-      document.getElementById("map").style.height = window.innerHeight - 43 + 'px';
-    }
+    if (PlatformService.isMobile()) document.getElementById("map").style.height = window.innerHeight - 43 + 'px';
 
     uiGmapGoogleMapApi.then((maps)=> {
       // Define Map options that need to interact with the controller

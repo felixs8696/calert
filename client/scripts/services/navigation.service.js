@@ -64,7 +64,6 @@ export default class NavigationService extends Service {
       this.posWatcher = navigator.geolocation.watchPosition((position) => {
         // TODO: Turn geocoder back on once you figure out what to do with it.
         // this.MapService.geocodeLatLng(this.geocoder, gmap, position.coords.latitude, position.coords.longitude);
-        console.log(this.marker);
         var pos = {lat: this.marker.position.lat(), lng: this.marker.position.lng()};
         var newPos = {lat: position.coords.latitude, lng: position.coords.longitude};
         var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
