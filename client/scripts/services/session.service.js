@@ -10,7 +10,10 @@ export default class SessionService extends Service {
   enterSession() {
     if (!this.inSession) {
       this.inSession = true;
-      this.$log.context('SessionService.enterSession').debug("Alert Session Entered")
+      this.NavigationService.initCurrentPos();
+      this.NavigationService.startPosWatch();
+      // this.NavigationService.startTrackingIndicator();
+      this.$log.context('SessionService.enterSession').debug("Alert Session Entered. Started Tracking Location.")
     }
   }
 

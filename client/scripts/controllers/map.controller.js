@@ -4,6 +4,7 @@ export default class MapCtrl extends Controller {
   constructor($scope, $log, uiGmapGoogleMapApi, Map, MapService, MarkerIconService, NavigationService, SessionService, DangerService, PlatformService) {
     super(...arguments);
     this.$log = $log;
+    this.$scope = $scope;
 
     // Map Variables
     this.mapObj = Map;
@@ -38,10 +39,19 @@ export default class MapCtrl extends Controller {
 
   startTracking() {
     if (!this.GMap) this.setMap(Map);
-    this.NavigationService.initCurrentPos(this.GMap);
-    this.NavigationService.startPosWatch(this.GMap);
-    this.NavigationService.startTrackingIndicator();
-    this.$log.context('MapCtrl.startTracking').debug('Started Tracking Location');
+    // this.NavigationService.initCurrentPos(this.GMap);
+    // this.NavigationService.startPosWatch(this.GMap);
+    google.maps.event.addListenerOnce(this.GMap, 'bounds_changed', () => {
+      var unbind = this.$scope.$watch(() => {
+        return this.NavigationService.marker.position;
+      }, () => {
+        this.NavigationService.startTrackingIndicator();
+        this.NavigationService.setTrackedMarker(this.NavigationService.marker.position, this.GMap);
+        this.GMap.panTo(this.NavigationService.marker.position);
+        this.$log.context('MapCtrl.startTracking').debug('Started Tracking Location');
+        unbind();
+      });
+    });
   }
 
   stopTracking() {

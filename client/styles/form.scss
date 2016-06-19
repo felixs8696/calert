@@ -19,19 +19,15 @@ label.item.has-error .input-label {
   font-size: 12px !important;
 }
 
-.item-floating-label .input-label.has-input {
+.item-input .input-label.has-input {
   color: rgba(0,0,0,0.54);
 }
 
-.item-stacked-label .input-label.input-focused {
-  // opacity: 1;
-  // top: 0;
+.item-input .input-label.input-focused {
   color: rgb(63,81,181) !important;
-  // -webkit-transition: opacity 0.15s ease-in-out, top 0.2s linear  !important;
-  // transition: opacity 0.15s ease-in-out, top 0.2s linear  !important;
 }
 
-.item-stacked-label.input-focused {
+.item-input.input-focused {
   border-left: 3px solid rgb(63,81,181) !important;
   padding-left: 14px;
 }
@@ -46,4 +42,54 @@ label.item.has-error .input-label {
 .bar .button .modal-icon:before {
   font-size: 22px !important;
   line-height: 22px !important;
+}
+
+.dark-list {
+  background-color: rgb(66,66,66) !important;
+  margin-bottom: 0 !important;
+}
+
+.dark-list .item-input .input-label.has-input{
+  color: rgba(255,255,255,0.7) !important;
+}
+
+.dark-list .item-input .input-label {
+  color: rgba(255,255,255,0.7) !important;
+}
+
+.dark-list .item-input .input-label.input-focused{
+  color: rgb(3,169,244) !important;
+}
+
+.dark-list .item-input.input-focused {
+  border-left: 3px solid rgb(3,169,244) !important;
+  padding-left: 14px !important;
+}
+
+.dark-list .item-input input{
+  background-color: transparent;
+  color: white;
+}
+
+.dark-list .item {
+  border-color: rgba(180,180,180,0.24) !important;
+  background-color: transparent !important;
+}
+
+.dark-list .item-select select {
+  background-color: transparent !important;
+  color: white !important;
+}
+
+.list .item {
+  word-wrap: break-word !important;
+  text-overflow: clip;
+}
+
+.textarea {
+  height: 25vh;
+}
+
+.slide-box {
+  height: calc(100vh - 43px);
 }

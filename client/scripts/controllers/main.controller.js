@@ -1,14 +1,23 @@
 import { Controller } from '../entities';
 
 export default class MainCtrl extends Controller {
-  constructor($scope, $state, $ionicModal, SessionService, DangerService, $log) {
+  constructor($scope, $state, $ionicModal, SessionService, DangerService, $log, $ionicSlideBoxDelegate, uiGmapGoogleMapApi) {
     super(...arguments);
     this.$state = $state;
     this.$log = $log;
     this.$scope = $scope;
+
     this.event = {};
+    this.dangers = ['1 (non-emergency)','2 (caution)','3 (emergency)'];
+    this.genders = ['M','F','Other','Non-Gender'];
+    this.builds = ['Slim','Muscular','Fat','Medium','Solid','Obese'];
+    this.ageRanges = ['1-10','11-20','21-30','31-40','41-50','51-60','61-70','71-80','81-90','91-100','100+'];
+    this.dangerCols = {1: '#FFD1D1', 2: '#FF5B5B', 3: '#FF0000', info: '#F2FFAA'}
+    this.others = [];
+
     this.SessionService = SessionService;
     this.DangerService = DangerService;
+    this.$ionicSlideBoxDelegate = $ionicSlideBoxDelegate;
     this.dangerLevel = DangerService.dangerLevel;
     this.decreaseDanger = DangerService.decreaseDanger;
     this.resetSession = DangerService.resetSession;
@@ -24,6 +33,13 @@ export default class MainCtrl extends Controller {
       animation: 'slide-in-up'
     }).then((modal) => {
       $scope.modal = modal;
+    });
+
+    $scope.$on('modal.shown', () => {
+      uiGmapGoogleMapApi.then((maps) => {
+        var input = document.getElementById('pac-input');
+        this.alertSearchBox = new google.maps.places.Autocomplete(input);
+      })
     });
   }
   viewMap() {
@@ -77,6 +93,14 @@ export default class MainCtrl extends Controller {
     this.safeForm.$setUntouched();
   }
 
+  slideBoxNext() {
+    this.$ionicSlideBoxDelegate.next();
+  }
+
+  slideBoxPrev() {
+    this.$ionicSlideBoxDelegate.previous();
+  }
+
 }
 
-MainCtrl.$inject = ['$scope', '$state', '$ionicModal', 'SessionService', 'DangerService', '$log'];
+MainCtrl.$inject = ['$scope', '$state', '$ionicModal', 'SessionService', 'DangerService', '$log', '$ionicSlideBoxDelegate', 'uiGmapGoogleMapApi'];

@@ -6,7 +6,7 @@ export default class DangerService extends Service {
     this.SessionService= SessionService;
     this.dangerLevel = 0;
     this.increaseDanger = () => {
-      if (this.dangerLevel == 0) this.SessionService.enterSession();
+      // if (this.dangerLevel == 0) this.SessionService.enterSession();
       if (this.dangerLevel < 3) this.dangerLevel += 1;
       NavigationService.changeMarkerIcon(MarkerIconService.getDangerMarkerIcon(this.dangerLevel));
       $log.context('DangerService.increaseDanger').debug(this.dangerLevel);

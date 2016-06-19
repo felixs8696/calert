@@ -9,8 +9,10 @@ export default class NavigationService extends Service {
     this.uiGmapGoogleMapApi = uiGmapGoogleMapApi;
     this.cfpLoadingBar = cfpLoadingBar;
     this.posWatcher = null;
-    var SlidingMarker = require('marker-animate-unobtrusive');
-    this.marker = new SlidingMarker({duration: 1000});
+    uiGmapGoogleMapApi.then(() => {
+      var SlidingMarker = require('marker-animate-unobtrusive');
+      this.marker = new SlidingMarker({duration: 1000});
+    });
   }
 
   changeMarkerIcon(icon) {
@@ -25,7 +27,11 @@ export default class NavigationService extends Service {
     this.uiGmapGoogleMapApi.then(() => {
       navigator.geolocation.getCurrentPosition((pos) => {
         var latlng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-        this.setTrackedMarker(latlng, gmap);
+        if (gmap) {
+          this.setTrackedMarker(latlng, gmap);
+        } else {
+          this.setTrackedMarker(latlng);
+        }
         this.cfpLoadingBar.complete();
       }, (error) => {
         this.$log.context('NavigationService.initCurrentPos').error(angular.toJson(error));
@@ -62,15 +68,17 @@ export default class NavigationService extends Service {
       }
 
       this.posWatcher = navigator.geolocation.watchPosition((position) => {
-        // TODO: Turn geocoder back on once you figure out what to do with it.
-        // this.MapService.geocodeLatLng(this.geocoder, gmap, position.coords.latitude, position.coords.longitude);
         var pos = {lat: this.marker.position.lat(), lng: this.marker.position.lng()};
         var newPos = {lat: position.coords.latitude, lng: position.coords.longitude};
         var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
         // transition(pos, newPos);
         this.marker.setPosition(latlng);
         // this.$log.context('NavigationService.startPosWatch.posWatcher').log('Location Update:' + newPos);
-        this.fitBounds(gmap, this.marker.position);
+        if (gmap) {
+          // TODO: Turn geocoder back on once you figure out what to do with it.
+          // this.MapService.geocodeLatLng(this.geocoder, gmap, position.coords.latitude, position.coords.longitude);
+          this.fitBounds(gmap, this.marker.position);
+        }
       }, (error) => {
         this.$log.context('NavigationService.startPosWatch.posWatcher').error(angular.toJson(error));
         if (error.code == error.PERMISSION_DENIED) {
@@ -91,8 +99,10 @@ export default class NavigationService extends Service {
   setTrackedMarker(markerPosition, gmap) {
     if (markerPosition) {
       this.marker.setPosition(markerPosition);
-      this.marker.setMap(gmap);
-      this.fitBounds(gmap, markerPosition);
+      if (gmap) {
+        this.marker.setMap(gmap);
+        this.fitBounds(gmap, markerPosition);
+      }
     }
   }
 
