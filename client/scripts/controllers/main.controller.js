@@ -5,6 +5,7 @@ export default class MainCtrl extends Controller {
     super(...arguments);
     this.$state = $state;
     this.$log = $log;
+    this.$scope = $scope;
     this.event = {};
     this.SessionService = SessionService;
     this.DangerService = DangerService;
@@ -69,9 +70,11 @@ export default class MainCtrl extends Controller {
     this.$log.context().debug("Report Incident Form Opened");
   }
 
-  closeModal(){
+  closeModal(safeForm){
     this.event = {};
     this.$scope.modal.hide();
+    this.safeForm.$setPristine();
+    this.safeForm.$setUntouched();
   }
 
 }

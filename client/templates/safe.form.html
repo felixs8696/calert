@@ -6,7 +6,6 @@
 <ion-modal-view>
   <ion-header-bar class="bar-stable">
     <button class="button button-clear modal-button" ng-click="vm.saveDraft()">
-      <!-- <i class="icon modal-icon ion-bookmark"></i> -->
       Save
     </button>
     <h1 class="title">Report Incident</h1>
@@ -15,30 +14,34 @@
     </button>
   </ion-header-bar>
   <ion-content has-bouncing="true">
-    <form name="safeForm" novalidate="" ng-submit="vm.submit(vm.event)">
+    <form name="vm.safeForm" novalidate="" ng-submit="vm.submit(vm.event)">
       <div class="list">
-        <label class="item item-input item-floating-label" ng-class="{ 'has-error' : safeForm.eventTitle.$invalid && safeForm.$submitted, 'input-focused': etFocus}">
+        <label class="item item-input item-stacked-label" ng-class="{ 'has-error' : vm.safeForm.eventTitle.$invalid && vm.safeForm.$submitted, 'input-focused': etFocus}">
           <span class="input-label" ng-class="{'input-focused': etFocus}">Event Title</span>
-          <input type="text" ng-init="etFocus = false" ng-focus="etFocus = true" ng-blur="etFocus = false" placeholder="Event Title" name="eventTitle" ng-model="vm.event.eventTitle" required>
+          <input type="text" ng-init="etFocus = false" ng-focus="etFocus = true" ng-blur="etFocus = false" name="eventTitle" ng-model="vm.event.eventTitle" required>
         </label>
-        <!-- <div ng-messages="safeForm.eventTitle.$error">
+        <!-- <div ng-messages="vm.safeForm.eventTitle.$error">
           <div ng-messages-include="templates/form-errors.html"></div>
         </div> -->
-        <label class="item item-input item-floating-label" ng-class="{ 'has-error' : safeForm.time.$invalid && safeForm.$submitted, 'input-focused': tiFocus}">
+        <label class="item item-input item-stacked-label" ng-class="{ 'has-error' : vm.safeForm.time.$invalid && vm.safeForm.$submitted, 'input-focused': tiFocus}">
           <span class="input-label" ng-class="{'input-focused': tiFocus}">Time</span>
-          <input type="time" ng-init="tiFocus = false" ng-focus="tiFocus = true" ng-blur="tiFocus = false" placeholder="Time" name="time" ng-model="vm.event.time" value="" required>
+          <input type="time" ng-init="tiFocus = false" ng-focus="tiFocus = true" ng-blur="tiFocus = false" name="time" ng-model="vm.event.time" value="" required>
         </label>
-        <label class="item item-input item-floating-label" ng-class="{ 'has-error' : safeForm.firstName.$invalid && safeForm.$submitted, 'input-focused': fnFocus}">
+        <label class="item item-input item-stacked-label" ng-class="{ 'has-error' : vm.safeForm.date.$invalid && vm.safeForm.$submitted, 'input-focused': daFocus}">
+          <span class="input-label" ng-class="{'input-focused': daFocus}">Date</span>
+          <input type="date" ng-init="daFocus = false" ng-focus="daFocus = true" ng-blur="daFocus = false" name="date" ng-model="vm.event.date" value="" required>
+        </label>
+        <label class="item item-input item-stacked-label" ng-class="{ 'has-error' : vm.safeForm.firstName.$invalid && vm.safeForm.$submitted, 'input-focused': fnFocus}">
           <span class="input-label" ng-class="{'input-focused': fnFocus}">First Name</span>
-          <input type="text" ng-init="fnFocus = false" ng-focus="fnFocus = true" ng-blur="fnFocus = false" placeholder="First Name" name="firstName" ng-model="vm.event.firstName" required>
+          <input type="text" ng-init="fnFocus = false" ng-focus="fnFocus = true" ng-blur="fnFocus = false" name="firstName" ng-model="vm.event.firstName" required>
         </label>
-        <label class="item item-input item-floating-label" ng-class="{ 'has-error' : safeForm.lastName.$invalid && safeForm.$submitted, 'input-focused': lnFocus}">
+        <label class="item item-input item-stacked-label" ng-class="{ 'has-error' : vm.safeForm.lastName.$invalid && vm.safeForm.$submitted, 'input-focused': lnFocus}">
           <span class="input-label" ng-class="{'input-focused': lnFocus}">Last Name</span>
-          <input type="text" ng-init="lnFocus = false" ng-focus="lnFocus = true" ng-blur="lnFocus = false" placeholder="Last Name" name="lastName" ng-model="vm.event.lastName" required>
+          <input type="text" ng-init="lnFocus = false" ng-focus="lnFocus = true" ng-blur="lnFocus = false" name="lastName" ng-model="vm.event.lastName" required>
         </label>
-        <label class="item item-input item-floating-label" ng-class="{ 'has-error' : safeForm.email.$invalid && safeForm.$submitted, 'input-focused': emFocus}">
+        <label class="item item-input item-stacked-label" ng-class="{ 'has-error' : vm.safeForm.email.$invalid && vm.safeForm.$submitted, 'input-focused': emFocus}">
           <span class="input-label" ng-class="{'input-focused': emFocus}">Email</span>
-          <input type="email" ng-init="emFocus = false" ng-focus="emFocus = true" ng-blur="emFocus = false" placeholder="Email" name="email" ng-model="vm.event.email" required>
+          <input type="email" ng-init="emFocus = false" ng-focus="emFocus = true" ng-blur="emFocus = false" name="email" ng-model="vm.event.email" required>
         </label>
         <div class="padding">
           <button type="submit" class="button button-block button-stable" ng-click="vm.submit(vm.event)">Submit</button>

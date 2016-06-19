@@ -1,11 +1,12 @@
-/** Styling for the username field **/
 label.item.has-error {
   border-left: 3px solid red;
   padding-left: 14px;
-  // border-right: 2px solid red;
 }
 
-/** Styling for the error text and container **/
+label.item.has-error .input-label {
+  color: red !important;
+}
+
 .form-errors {
   margin: 5px 0
 }
@@ -22,15 +23,15 @@ label.item.has-error {
   color: rgba(0,0,0,0.54);
 }
 
-.item-floating-label .input-label.input-focused {
-  opacity: 1;
-  top: 0;
+.item-stacked-label .input-label.input-focused {
+  // opacity: 1;
+  // top: 0;
   color: rgb(63,81,181) !important;
-  -webkit-transition: opacity 0.15s ease-in-out, top 0.2s linear  !important;
-  transition: opacity 0.15s ease-in-out, top 0.2s linear  !important;
+  // -webkit-transition: opacity 0.15s ease-in-out, top 0.2s linear  !important;
+  // transition: opacity 0.15s ease-in-out, top 0.2s linear  !important;
 }
 
-.item-floating-label.input-focused {
+.item-stacked-label.input-focused {
   border-left: 3px solid rgb(63,81,181) !important;
   padding-left: 14px;
 }
