@@ -84,14 +84,17 @@ export default class MainCtrl extends Controller {
       this.openModal();
       this.$log.context('MainCtrl.markSafe').info('User ('+ Meteor.userId() + ') Marked Safe');
     } else {
-      this.displayToast('Tracking is: OFF');
+      this.displayToast('Not in Alert Mode');
     }
   }
 
   cancelAlert() {
-    this.SessionService.finishSession();
-    this.DangerService.setDangerLevel(0);
-    this.$log.context("MainCtrl.cancelAlert").info("Alert Canceled");
+    if (this.DangerService.dangerLevel > 0) {
+      this.displayToast('Alert Canceled');
+      this.SessionService.finishSession();
+      this.DangerService.setDangerLevel(0);
+      this.$log.context("MainCtrl.cancelAlert").info("Alert Canceled");
+    }
   }
 
   dangerClass() {
