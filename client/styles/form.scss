@@ -84,12 +84,25 @@ label.item.has-error .input-label {
 .list .item {
   word-wrap: break-word !important;
   text-overflow: clip;
+  left: 1px;
+  border-left: 0;
 }
 
 .textarea {
-  height: 25vh;
+  height: 15vh;
 }
 
 .slide-box {
   height: calc(100vh - 43px);
+  overflow: hidden;
+}
+
+.click-map {
+  display: block;
+  width: 100%;
+  height: 25vh;
+}
+
+.slider {
+  height: 100%;
 }

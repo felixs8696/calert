@@ -56,17 +56,18 @@ export default class MapService extends Service {
     });
   }
 
-  geocodeLatLng(geocoder, map, latitude, longitude) {
+  geocodeLatLng(geocoder, latitude, longitude, callback) {
     this.uiGmapGoogleMapApi.then((maps) => {
       var latlng = {lat: latitude, lng: longitude};
       geocoder.geocode({'location': latlng}, (results, status) => {
         if (status === google.maps.GeocoderStatus.OK) {
           if (results[1]) {
-            var service = new google.maps.places.PlacesService(map);
+            var service = new google.maps.places.PlacesService(document.createElement('div'));
             var geoPlace = results[1];
             service.getDetails({placeId: geoPlace.place_id}, (place, status) => {
               if (status == google.maps.places.PlacesServiceStatus.OK) {
                 this.$log.context('MapService.geocodeLatLng').log("Lat: " + place.geometry.location.lat() + ", Lng: " + place.geometry.location.lng() + ", Addr: " + place.formatted_address);
+                callback({geo: results[1], lat: latitude, lng: longitude});
               } else {
                 this.$log.context('MapService.geocodeLatLng').error(angular.toJson(status));
               }

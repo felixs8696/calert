@@ -23,8 +23,6 @@ export default class MapCtrl extends Controller {
         MapService.initMapMarkers(this.GMap);
         if (PlatformService.isMobile()) this.GMap.draggable = true;
         if (this.NavigationService.isTracking()) NavigationService.setTrackedMarker(NavigationService.marker.position, this.GMap);
-        // Create a geocoder object to turn latlng object into a place
-        this.geocoder = new google.maps.Geocoder;
       }
       // Load the Map with the added options into the controller
       this.setMap(Map);
@@ -48,22 +46,10 @@ export default class MapCtrl extends Controller {
         if (retrieved) {
           this.NavigationService.startTrackingIndicator();
           this.NavigationService.setTrackedMarker(this.NavigationService.marker.position, this.GMap);
-          // this.GMap.panTo(this.NavigationService.marker.position);
           this.$log.context('MapCtrl.startTracking').debug('Started Tracking Location');
           unbind();
         }
       })
-      // var unbind = this.$scope.$watch(() => {
-      //   return this.NavigationService.marker.position;
-      // }, (position) => {
-      //   if (position) {
-      //     this.NavigationService.startTrackingIndicator();
-      //     this.NavigationService.setTrackedMarker(position, this.GMap);
-      //     // this.GMap.panTo(this.NavigationService.marker.position);
-      //     this.$log.context('MapCtrl.startTracking').debug('Started Tracking Location');
-      //     unbind();
-      //   }
-      // });
     });
   }
 
