@@ -132,12 +132,12 @@ export default class NavigationService extends Service {
     var dstBottom = Math.abs(markerPosition.lat() - bottomLat);
     var dstRight = Math.abs(rightLng - markerPosition.lng());
     var dstLeft = Math.abs(markerPosition.lng() - leftLng);
-    if(!gmap.getBounds().contains(markerPosition) || dstTop <= 0.005 || dstBottom <= 0.005 || dstRight <= 0.005 || dstLeft <= 0.005) {
+    if(!gmap.getBounds().contains(markerPosition) || dstTop <= 0.001 || dstBottom <= 0.001 || dstRight <= 0.001 || dstLeft <= 0.001) {
       var bounds = new google.maps.LatLngBounds();
       bounds.extend(markerPosition);
       if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-         var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.005, bounds.getNorthEast().lng() + 0.005);
-         var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.005, bounds.getNorthEast().lng() - 0.005);
+         var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.003, bounds.getNorthEast().lng() + 0.003);
+         var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.003, bounds.getNorthEast().lng() - 0.003);
          bounds.extend(extendPoint1);
          bounds.extend(extendPoint2);
       }

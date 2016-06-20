@@ -5,7 +5,7 @@ export default class GlobalCtrl extends Controller {
     super(...arguments);
     // this.sessionStatus = false;
     this.$state = $state;
-    this.showLoadingBar = false;
+    // this.showLoadingBar = false;
     $scope.$watch(() => {
       return SessionService.inSession;
     }, (newValue, oldValue) => {

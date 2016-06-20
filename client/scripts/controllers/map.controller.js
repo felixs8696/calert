@@ -29,6 +29,9 @@ export default class MapCtrl extends Controller {
       $scope.$watch(() => {
         return SessionService.inSession;
       }, (sessionStatus, oldStatus) => {
+        console.log('sessionStatus: ' + sessionStatus);
+        console.log('oldStatus: ' + oldStatus);
+        console.log('this.NavigationService.isTracking(): ' + !this.NavigationService.isTracking());
         if(sessionStatus && !this.NavigationService.isTracking()) this.startTracking();
         if(!sessionStatus) this.stopTracking();
       });
