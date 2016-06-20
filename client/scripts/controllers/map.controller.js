@@ -29,9 +29,6 @@ export default class MapCtrl extends Controller {
       $scope.$watch(() => {
         return SessionService.inSession;
       }, (sessionStatus, oldStatus) => {
-        console.log('sessionStatus: ' + sessionStatus);
-        console.log('oldStatus: ' + oldStatus);
-        console.log('this.NavigationService.isTracking(): ' + !this.NavigationService.isTracking());
         if(sessionStatus && !this.NavigationService.isTracking()) this.startTracking();
         if(!sessionStatus) this.stopTracking();
       });
@@ -39,9 +36,7 @@ export default class MapCtrl extends Controller {
   }
 
   startTracking() {
-    if (!this.GMap) this.setMap(Map);
-    // this.NavigationService.initCurrentPos(this.GMap);
-    // this.NavigationService.startPosWatch(this.GMap);
+    this.setMap(Map);
     google.maps.event.addListenerOnce(this.GMap, 'bounds_changed', () => {
       var unbind = this.$scope.$watch(() => {
         return this.NavigationService.gotCurrentLocation;

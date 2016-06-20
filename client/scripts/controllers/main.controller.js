@@ -67,11 +67,13 @@ export default class MainCtrl extends Controller {
   }
 
   markSafe() {
-    this.event.dangerLevel = this.dangers[this.DangerService.dangerLevel - 1];
-    this.SessionService.finishSession();
-    this.DangerService.setDangerLevel(0);
-    this.openModal();
-    this.$log.context('MainCtrl.markSafe').info('User ('+ Meteor.userId() + ') Marked Safe');
+    if (this.SessionService.sessionStatus()) {
+      this.event.dangerLevel = this.dangers[this.DangerService.dangerLevel - 1];
+      this.SessionService.finishSession();
+      this.DangerService.setDangerLevel(0);
+      this.openModal();
+      this.$log.context('MainCtrl.markSafe').info('User ('+ Meteor.userId() + ') Marked Safe');
+    }
   }
 
   cancelAlert() {

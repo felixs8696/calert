@@ -22,6 +22,8 @@ export default class SessionService extends Service {
       this.inSession = false;
       this.NavigationService.stopPosWatch();
       this.NavigationService.stopTrackingIndicator();
+      // TODO: Save marker to recent sessions in profile
+      // TODO: this.marker = null;
       this.$log.context('SessionService.finishSession').debug("Alert Session Ended")
     }
   }
