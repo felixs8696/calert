@@ -32,6 +32,7 @@ export default class NavigationService extends Service {
         } else {
           this.setTrackedMarker(latlng);
         }
+        this.gotCurrentLocation = true;
         this.cfpLoadingBar.complete();
       }, (error) => {
         this.$log.context('NavigationService.initCurrentPos').error(angular.toJson(error));
@@ -91,6 +92,7 @@ export default class NavigationService extends Service {
   }
 
   stopPosWatch() {
+    this.gotCurrentLocation = false;
     navigator.geolocation.clearWatch(this.posWatcher);
     this.posWatcher = null;
     this.$log.context('NavigationService.stopPosWatch').debug("Position Watcher Halted");
@@ -101,7 +103,8 @@ export default class NavigationService extends Service {
       this.marker.setPosition(markerPosition);
       if (gmap) {
         this.marker.setMap(gmap);
-        this.fitBounds(gmap, markerPosition);
+        navigator.geolocation.clearWatch(this.posWatcher);
+        this.startPosWatch(gmap);
       }
     }
   }

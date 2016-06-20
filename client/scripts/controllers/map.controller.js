@@ -43,14 +43,27 @@ export default class MapCtrl extends Controller {
     // this.NavigationService.startPosWatch(this.GMap);
     google.maps.event.addListenerOnce(this.GMap, 'bounds_changed', () => {
       var unbind = this.$scope.$watch(() => {
-        return this.NavigationService.marker.position;
-      }, () => {
-        this.NavigationService.startTrackingIndicator();
-        this.NavigationService.setTrackedMarker(this.NavigationService.marker.position, this.GMap);
-        this.GMap.panTo(this.NavigationService.marker.position);
-        this.$log.context('MapCtrl.startTracking').debug('Started Tracking Location');
-        unbind();
-      });
+        return this.NavigationService.gotCurrentLocation;
+      }, (retrieved, previous) => {
+        if (retrieved) {
+          this.NavigationService.startTrackingIndicator();
+          this.NavigationService.setTrackedMarker(this.NavigationService.marker.position, this.GMap);
+          // this.GMap.panTo(this.NavigationService.marker.position);
+          this.$log.context('MapCtrl.startTracking').debug('Started Tracking Location');
+          unbind();
+        }
+      })
+      // var unbind = this.$scope.$watch(() => {
+      //   return this.NavigationService.marker.position;
+      // }, (position) => {
+      //   if (position) {
+      //     this.NavigationService.startTrackingIndicator();
+      //     this.NavigationService.setTrackedMarker(position, this.GMap);
+      //     // this.GMap.panTo(this.NavigationService.marker.position);
+      //     this.$log.context('MapCtrl.startTracking').debug('Started Tracking Location');
+      //     unbind();
+      //   }
+      // });
     });
   }
 
