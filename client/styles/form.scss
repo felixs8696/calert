@@ -106,3 +106,15 @@ label.item.has-error .input-label {
 .slider {
   height: 100%;
 }
+
+.next-slide {
+  display: block;
+}
+
+.next-slide .icon {
+  text-align: center;
+  font-size: 34px;
+  padding: 5px;
+  display: block;
+  // color: rgba(255, 255, 255, 0.7);
+}

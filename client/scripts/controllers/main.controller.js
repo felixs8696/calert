@@ -8,6 +8,32 @@ export default class MainCtrl extends Controller {
     this.$scope = $scope;
     this.$timeout = $timeout;
 
+    this.openModal = () => {
+      $scope.modal.show();
+      $log.context().debug("Report Incident Form Opened");
+    }
+    this.closeModal = () => {
+      this.event = {};
+      $scope.modal.hide();
+      this.safeForm.$setPristine();
+      this.safeForm.$setUntouched();
+      $ionicSlideBoxDelegate.slide(0);
+    }
+
+    this.slideBoxNext = () => {
+      this.$ionicSlideBoxDelegate.next();
+    }
+    this.slideBoxPrev = () => {
+      this.$ionicSlideBoxDelegate.previous();
+    }
+    this.secondarySlideButton = () => {
+      if ($ionicSlideBoxDelegate.currentIndex() < $ionicSlideBoxDelegate.slidesCount() -1) {
+        return {icon: 'ion-arrow-right-c', func: this.slideBoxNext};
+      } else {
+        return {icon: 'ion-android-close', func: this.closeModal};
+      }
+    }
+
     this.event = {};
     this.dangers = ['1 (non-emergency)','2 (caution)','3 (emergency)'];
     this.genders = ['M','F','Other','Non-Gender'];
@@ -33,7 +59,6 @@ export default class MainCtrl extends Controller {
       return SessionService.inSession;
     }, (newValue, oldValue) => {
       this.sessionStatus = newValue;
-      console.log(this.sessionStatus);
     });
 
     $ionicModal.fromTemplateUrl('client/templates/safe.form.html', {
@@ -78,7 +103,7 @@ export default class MainCtrl extends Controller {
   }
 
   alertPress() {
-    this.displayToast('Getting GPS Location...');
+    if (!this.SessionService.sessionStatus()) this.displayToast('Getting GPS Location...');
     this.SessionService.enterSession();
     this.dangerLevel = this.DangerService.increaseDanger();
   }
@@ -119,26 +144,6 @@ export default class MainCtrl extends Controller {
       default:
         return noDanger;
     }
-  }
-
-  openModal(){
-    this.$scope.modal.show();
-    this.$log.context().debug("Report Incident Form Opened");
-  }
-
-  closeModal(safeForm){
-    this.event = {};
-    this.$scope.modal.hide();
-    this.safeForm.$setPristine();
-    this.safeForm.$setUntouched();
-  }
-
-  slideBoxNext() {
-    this.$ionicSlideBoxDelegate.next();
-  }
-
-  slideBoxPrev() {
-    this.$ionicSlideBoxDelegate.previous();
   }
 
 }
