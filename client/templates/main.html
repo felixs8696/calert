@@ -1,5 +1,6 @@
 <ion-view class="background" ng-class="vm.dangerClass().background">
   <ion-content>
+    <div class='toast' ng-show="vm.showToast">{{vm.toastContent}}</div>
     <div class="logo-container">
       <img class="logo-img" src="logo.png"/>
     </div>

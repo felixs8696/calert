@@ -1,0 +1,23 @@
+.toast {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  vertical-align: middle;
+  padding: 7px 10px 0 10px;
+  height: 35px;
+  background-color: rgba(0,0,0,.54);
+  color: white;
+  border-radius: 5px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5), 0 0 3px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  opacity: 1;
+  -webkit-transition:all ease-in-out .5s;
+  -moz-transition:all ease-in-out .5s;
+  -o-transition:all ease-in-out .5s;
+  transition:all ease-in-out .5s;
+}
+
+.toast.ng-hide {
+  opacity: 0;
+  display: block !important;
+}

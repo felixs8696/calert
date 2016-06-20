@@ -6,6 +6,7 @@ export default class MainCtrl extends Controller {
     this.$state = $state;
     this.$log = $log;
     this.$scope = $scope;
+    this.$timeout = $timeout;
 
     this.event = {};
     this.dangers = ['1 (non-emergency)','2 (caution)','3 (emergency)'];
@@ -61,7 +62,16 @@ export default class MainCtrl extends Controller {
     this.$state.go('app.map');
   }
 
+  displayToast(toastContent) {
+    this.toastContent = toastContent;
+    this.showToast = true;
+    this.$timeout(()=>{
+      this.showToast = false;
+    },2000);
+  }
+
   alertPress() {
+    this.displayToast('Getting GPS Location...');
     this.SessionService.enterSession();
     this.dangerLevel = this.DangerService.increaseDanger();
   }
@@ -73,6 +83,8 @@ export default class MainCtrl extends Controller {
       this.DangerService.setDangerLevel(0);
       this.openModal();
       this.$log.context('MainCtrl.markSafe').info('User ('+ Meteor.userId() + ') Marked Safe');
+    } else {
+      this.displayToast('Tracking is: OFF');
     }
   }
 
