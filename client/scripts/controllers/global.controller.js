@@ -3,14 +3,14 @@ import { Controller } from '../entities';
 export default class GlobalCtrl extends Controller {
   constructor($scope, SessionService,$state, cfpLoadingBar) {
     super(...arguments);
-    // this.sessionStatus = false;
     this.$state = $state;
-    // this.showLoadingBar = false;
+
     $scope.$watch(() => {
       return SessionService.inSession;
     }, (newValue, oldValue) => {
       this.sessionStatus = newValue;
     });
+
     $scope.$on('cfpLoadingBar:started', (event, data) => {
       this.showLoadingBar = true;
     });

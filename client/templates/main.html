@@ -1,4 +1,9 @@
 <ion-view class="background" ng-class="vm.dangerClass().background">
+  <ion-nav-buttons side="secondary">
+    <button class="button button-clear" ui-sref='app.map' ng-hide="vm.sessionStatus">
+      <i class="icon ion-map"></i>
+    </button>
+  </ion-nav-buttons>
   <ion-content>
     <div class='toast' ng-show="vm.showToast">{{vm.toastContent}}</div>
     <div class="logo-container">

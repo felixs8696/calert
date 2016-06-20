@@ -29,6 +29,13 @@ export default class MainCtrl extends Controller {
       this.dangerLevel = newValue;
     });
 
+    $scope.$watch(() => {
+      return SessionService.inSession;
+    }, (newValue, oldValue) => {
+      this.sessionStatus = newValue;
+      console.log(this.sessionStatus);
+    });
+
     $ionicModal.fromTemplateUrl('client/templates/safe.form.html', {
       scope: $scope,
       animation: 'slide-in-up'
