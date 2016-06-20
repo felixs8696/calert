@@ -1,7 +1,7 @@
 import { Controller } from '../entities';
 
 export default class MainCtrl extends Controller {
-  constructor($scope, $state, $ionicModal, SessionService, DangerService, $log, $ionicSlideBoxDelegate, uiGmapGoogleMapApi, NavigationService, PlatformService, MapService, $timeout) {
+  constructor($scope, $state, $ionicModal, SessionService, DangerService, $log, $ionicSlideBoxDelegate, uiGmapGoogleMapApi, NavigationService, PlatformService, MapService, $timeout, MarkerIconService) {
     super(...arguments);
     this.$state = $state;
     this.$log = $log;
@@ -45,13 +45,11 @@ export default class MainCtrl extends Controller {
           var map = new google.maps.Map(document.getElementById('clickMap'), {
             center: latLng, scrollwheel: false, zoom: 16, draggable: false
           });
-          var marker = new google.maps.Marker({map: map, position: latLng});
-          // Create a geocoder object to turn latlng object into a place
+          var marker = new google.maps.Marker({map: map, position: latLng, icon: MarkerIconService.getInfoMarkerIcon()});
           var geocoder = new google.maps.Geocoder;
           MapService.geocodeLatLng(geocoder, latLng.lat(), latLng.lng(), (place) => {
             $timeout(() => {
               this.event.address = place.geo.formatted_address;
-              console.log(place.geo.formatted_address);
               this.event.place = place;
             });
           })
@@ -69,6 +67,7 @@ export default class MainCtrl extends Controller {
   }
 
   markSafe() {
+    this.event.dangerLevel = this.dangers[this.DangerService.dangerLevel - 1];
     this.SessionService.finishSession();
     this.DangerService.setDangerLevel(0);
     this.openModal();
@@ -120,4 +119,4 @@ export default class MainCtrl extends Controller {
 
 }
 
-MainCtrl.$inject = ['$scope', '$state', '$ionicModal', 'SessionService', 'DangerService', '$log', '$ionicSlideBoxDelegate', 'uiGmapGoogleMapApi', 'NavigationService', 'PlatformService', 'MapService', '$timeout'];
+MainCtrl.$inject = ['$scope', '$state', '$ionicModal', 'SessionService', 'DangerService', '$log', '$ionicSlideBoxDelegate', 'uiGmapGoogleMapApi', 'NavigationService', 'PlatformService', 'MapService', '$timeout', 'MarkerIconService'];
