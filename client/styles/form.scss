@@ -108,5 +108,28 @@ label.item.has-error .input-label {
 }
 
 input[disabled] {
+  background-color: transparent;
   opacity: 0.4;
+}
+
+.toggle-label {
+  font-size: 12px;
+}
+
+.item-toggle .toggle {
+  top: 15px;
+}
+
+.toggle .track {
+  width: 41px;
+  height: 21px;
+}
+
+.toggle .handle {
+  width: 17px;
+  height: 17px;
+}
+
+label.item.disabled .input-label {
+  opacity: 0.2 !important;
 }
