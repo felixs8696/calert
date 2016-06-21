@@ -6,7 +6,7 @@
 <ion-modal-view>
   <ion-header-bar class="bar-stable">
     <button class="button button-clear modal-button" ng-click="vm.saveDraft()">
-      Save
+      <i class="icon modal-icon ion-bookmark"></i>
     </button>
     <h1 class="title">Report Incident</h1>
     <button class="button button-clear modal-button" ng-click="vm.secondarySlideButton().func()">
@@ -14,7 +14,7 @@
     </button>
   </ion-header-bar>
   <ion-content has-bouncing="true">
-    <form name="vm.safeForm" novalidate="" ng-submit="vm.submit(vm.event)">
+    <form name="vm.safeForm" novalidate="" ng-submit="vm.submitSafeForm()">
       <ion-slide-box>
         <ion-slide>
           <div class="slide-box">
@@ -26,7 +26,7 @@
               </label>
               <label class="item item-input item-stacked-label" ng-class="{ 'has-error' : vm.safeForm.eventTitle.$invalid && vm.safeForm.$submitted, 'input-focused': etFocus}">
                 <span class="input-label" ng-class="{'input-focused': etFocus}">Event Title</span>
-                <input type="text" ng-init="etFocus = false" ng-focus="etFocus = true" ng-blur="etFocus = false" name="eventTitle" ng-model="vm.event.eventTitle" required>
+                <input type="text" ng-init="etFocus = false" ng-focus="etFocus = true" ng-blur="etFocus = false" name="eventTitle" ng-model="vm.event.title" required>
               </label>
               <!-- <div ng-messages="vm.safeForm.eventTitle.$error">
                 <div ng-messages-include="templates/form-errors.html"></div>
@@ -41,7 +41,7 @@
               </label>
               <label class="item item-input item-select" ng-class="{ 'has-error' : vm.safeForm.dangerLevel.$invalid && vm.safeForm.$submitted, 'input-focused': dlFocus}">
                 <span class="input-label" ng-class="{'input-focused': dlFocus}">Danger Level</span>
-                <select ng-init="dlFocus = false" ng-focus="dlFocus = true" ng-blur="dlFocus = false" name="dangerLevel" ng-model="vm.event.dangerLevel" required>
+                <select ng-init="dlFocus = false" ng-focus="dlFocus = true" ng-blur="dlFocus = false" name="dangerLevel" ng-model="vm.event.danger" required>
                   <option ng-repeat="danger in vm.dangers">{{danger}}</option>
                 </select>
               </label>
@@ -50,7 +50,7 @@
         </ion-slide>
         <ion-slide>
           <div class="list">
-            <label class="item item-input item-stacked-label" ng-class="{ 'has-error' : vm.safeForm.reporterfirstName.$invalid && vm.safeForm.$submitted, 'input-focused': fnFocus}">
+            <label class="item item-input item-stacked-label" ng-class="{ 'has-error' : vm.safeForm.firstName.$invalid && vm.safeForm.$submitted, 'input-focused': fnFocus}">
               <span class="input-label" ng-class="{'input-focused': fnFocus}">First Name</span>
               <input type="text" ng-init="fnFocus = false" ng-focus="fnFocus = true" ng-blur="fnFocus = false" name="firstName" ng-model="vm.event.reporter.firstName" required>
             </label>
@@ -70,15 +70,15 @@
             </label>
             <label class="item item-input item-stacked-label" ng-class="{ 'has-error' : vm.safeForm.email.$invalid && vm.safeForm.$submitted, 'input-focused': emFocus}">
               <span class="input-label" ng-class="{'input-focused': emFocus}">Email</span>
-              <input type="email" ng-init="emFocus = false" ng-focus="emFocus = true" ng-blur="emFocus = false" name="email" ng-model="vm.event.email" required>
+              <input type="email" ng-init="emFocus = false" ng-focus="emFocus = true" ng-blur="emFocus = false" name="email" ng-model="vm.event.reporter.email" required>
             </label>
             <label class="item item-input item-stacked-label" ng-class="{ 'has-error' : vm.safeForm.description.$invalid && vm.safeForm.$submitted, 'input-focused': deFocus}">
               <span class="input-label" ng-class="{'input-focused': deFocus}">Description</span>
               <textarea class="textarea" ng-init="deFocus = false" ng-focus="deFocus = true" ng-blur="deFocus = false" name="description" ng-model="vm.event.description" required></textarea>
             </label>
-            <div class="padding">
+            <!-- <div class="padding">
               <button type="submit" class="button button-block button-stable" ng-click="vm.submit(vm.event)">Submit</button>
-            </div>
+            </div> -->
           </div>
         </ion-slide>
       </ion-slide-box>

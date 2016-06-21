@@ -8,16 +8,39 @@ export default class MainCtrl extends Controller {
     this.$scope = $scope;
     this.$timeout = $timeout;
 
+    $scope.$on('modal.shown', () => {
+      if (PlatformService.isMobile()) document.getElementsByClassName("slide-box")[0].style.height = window.innerHeight - 43 + 'px';
+      uiGmapGoogleMapApi.then((maps) => {
+        var input = document.getElementById('pac-input');
+        this.alertSearchBox = new google.maps.places.Autocomplete(input);
+        var latLng = NavigationService.marker.position;
+        if (latLng) {
+          var map = new google.maps.Map(document.getElementById('clickMap'), {
+            center: latLng, scrollwheel: false, zoom: 16, draggable: false
+          });
+          var marker = new google.maps.Marker({map: map, position: latLng, icon: MarkerIconService.getInfoMarkerIcon()});
+          var geocoder = new google.maps.Geocoder;
+          MapService.geocodeLatLng(geocoder, latLng.lat(), latLng.lng(), (place) => {
+            $timeout(() => {
+              this.event.address = place.geo.formatted_address;
+              this.event.place = place;
+            });
+          })
+        }
+      })
+    });
+
     this.openModal = () => {
       $scope.modal.show();
       $log.context().debug("Report Incident Form Opened");
     }
     this.closeModal = () => {
       this.event = {};
-      $scope.modal.hide();
+      $scope.modal.hide().then(() => {
+        $ionicSlideBoxDelegate.slide(0);
+      });
       this.safeForm.$setPristine();
       this.safeForm.$setUntouched();
-      $ionicSlideBoxDelegate.slide(0);
     }
 
     this.slideBoxNext = () => {
@@ -30,8 +53,20 @@ export default class MainCtrl extends Controller {
       if ($ionicSlideBoxDelegate.currentIndex() < $ionicSlideBoxDelegate.slidesCount() -1) {
         return {icon: 'ion-arrow-right-c', func: this.slideBoxNext};
       } else {
-        return {icon: 'ion-android-close', func: this.closeModal};
+        return {icon: 'ion-checkmark-round', func: this.submitSafeForm};
       }
+    }
+    this.saveDraft = () => {
+      console.log(this.event);
+      this.closeModal();
+    }
+    this.submitSafeForm = () => {
+      this.safeForm.$setSubmitted();
+      if (this.safeForm.$valid) {
+        this.closeModal();
+      }
+      console.log(this.event);
+      console.log(this.safeForm);
     }
 
     this.event = {};
@@ -67,28 +102,6 @@ export default class MainCtrl extends Controller {
     }).then((modal) => {
       $scope.modal = modal;
     });
-
-    $scope.$on('modal.shown', () => {
-      if (PlatformService.isMobile()) document.getElementsByClassName("slide-box")[0].style.height = window.innerHeight - 43 + 'px';
-      uiGmapGoogleMapApi.then((maps) => {
-        var input = document.getElementById('pac-input');
-        this.alertSearchBox = new google.maps.places.Autocomplete(input);
-        var latLng = NavigationService.marker.position;
-        if (latLng) {
-          var map = new google.maps.Map(document.getElementById('clickMap'), {
-            center: latLng, scrollwheel: false, zoom: 16, draggable: false
-          });
-          var marker = new google.maps.Marker({map: map, position: latLng, icon: MarkerIconService.getInfoMarkerIcon()});
-          var geocoder = new google.maps.Geocoder;
-          MapService.geocodeLatLng(geocoder, latLng.lat(), latLng.lng(), (place) => {
-            $timeout(() => {
-              this.event.address = place.geo.formatted_address;
-              this.event.place = place;
-            });
-          })
-        }
-      })
-    });
   }
   viewMap() {
     this.$state.go('app.map');
@@ -110,7 +123,7 @@ export default class MainCtrl extends Controller {
 
   markSafe() {
     if (this.SessionService.sessionStatus()) {
-      this.event.dangerLevel = this.dangers[this.DangerService.dangerLevel - 1];
+      this.event.danger = this.dangers[this.DangerService.dangerLevel - 1];
       this.SessionService.finishSession();
       this.DangerService.setDangerLevel(0);
       this.openModal();
