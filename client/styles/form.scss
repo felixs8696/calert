@@ -105,6 +105,7 @@ label.item.has-error .input-label {
 
 .slider {
   height: 100%;
+  padding-bottom: 40px;
 }
 
 input[disabled] {
@@ -132,4 +133,9 @@ input[disabled] {
 
 label.item.disabled .input-label {
   opacity: 0.2 !important;
+}
+
+label.item.disabled {
+  border-left: 0 !important;
+  padding-left: 16px !important;
 }

@@ -73,6 +73,15 @@
               <span class="input-label" ng-class="{'input-focused': emFocus}">Email</span>
               <input type="email" ng-disabled="vm.event.anonymous" ng-init="emFocus = false" ng-focus="emFocus = true" ng-blur="emFocus = false" name="email" ng-model="vm.event.reporter.email" required>
             </label>
+            <div class="item chips item-input" ng-class="{'input-focused': ciFocus}">
+              <div class="input-label" ng-class="{'input-focused': ciFocus}">Others Involved</div>
+              <input class="chip-input" ng-init="ciFocus = false" ng-focus="ciFocus = true" ng-blur="ciFocus = false" type="text" ng-model="vm.currentOther" ng-keyup="$event.keyCode == 13 && vm.otherEnter()"/>
+              <div class="chip" ng-repeat="person in vm.event.others">
+                <img ng-src="{{person.img}}" alt="Person">
+                {{person.name}}
+                <button type="button" class="closebtn" ng-click="vm.deleteChip($index)">&times;</button>
+              </div>
+            </div>
             <label class="item item-input item-stacked-label" ng-class="{ 'has-error' : vm.safeForm.description.$invalid && vm.safeForm.$submitted, 'input-focused': deFocus}">
               <span class="input-label" ng-class="{'input-focused': deFocus}">Description</span>
               <textarea class="textarea" ng-init="deFocus = false" ng-focus="deFocus = true" ng-blur="deFocus = false" name="description" ng-model="vm.event.description" required></textarea>
