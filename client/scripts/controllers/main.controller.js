@@ -1,12 +1,23 @@
 import { Controller } from '../entities';
 
 export default class MainCtrl extends Controller {
-  constructor($scope, $state, $ionicModal, SessionService, DangerService, $log, $ionicSlideBoxDelegate, uiGmapGoogleMapApi, NavigationService, PlatformService, MapService, $timeout, MarkerIconService, $ionicScrollDelegate) {
+  constructor($scope, $state, $ionicModal, SessionService, DangerService, $log, $ionicSlideBoxDelegate, uiGmapGoogleMapApi, NavigationService, PlatformService, MapService, $timeout, MarkerIconService, $ionicScrollDelegate, $ionicPopup) {
     super(...arguments);
     this.$state = $state;
     this.$log = $log;
     this.$scope = $scope;
     this.$timeout = $timeout;
+
+    this.errorAlert = () => {
+      var alertPopup = $ionicPopup.alert({
+       title: 'Missing Required Fields',
+       template: 'Please swipe back and fill all fields marked in red or tap the bookmark to fill out the form later.'
+      });
+
+      alertPopup.then(function(res) {
+       console.log('Thank you for not eating my delicious ice cream cone');
+      });
+    };
 
     $scope.$on('modal.shown', () => {
       if (PlatformService.isMobile()) document.getElementsByClassName("slide-box")[0].style.height = window.innerHeight - 43 + 'px';
@@ -65,6 +76,8 @@ export default class MainCtrl extends Controller {
       this.safeForm.$setSubmitted();
       if (this.safeForm.$valid) {
         this.closeModal();
+      } else {
+        this.errorAlert();
       }
     }
 
@@ -108,6 +121,7 @@ export default class MainCtrl extends Controller {
     this.suspectFocusToggle = (focus, index, bool) => {
       this.suspectFocuses[focus][index] = bool;
     }
+
 
     this.SessionService = SessionService;
     this.DangerService = DangerService;
@@ -197,4 +211,4 @@ export default class MainCtrl extends Controller {
 
 }
 
-MainCtrl.$inject = ['$scope', '$state', '$ionicModal', 'SessionService', 'DangerService', '$log', '$ionicSlideBoxDelegate', 'uiGmapGoogleMapApi', 'NavigationService', 'PlatformService', 'MapService', '$timeout', 'MarkerIconService', '$ionicScrollDelegate'];
+MainCtrl.$inject = ['$scope', '$state', '$ionicModal', 'SessionService', 'DangerService', '$log', '$ionicSlideBoxDelegate', 'uiGmapGoogleMapApi', 'NavigationService', 'PlatformService', 'MapService', '$timeout', 'MarkerIconService', '$ionicScrollDelegate', '$ionicPopup'];
