@@ -1,0 +1,47 @@
+.suspect-page-title {
+  position: absolute;
+  text-align: center;
+  top: 20vh;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  font-size: 24px;
+  line-height: 24px;
+  color: rgb(63,81,181);
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  width: 80%;
+}
+
+.suspect-number {
+  position: absolute;
+  text-align: center;
+  top: calc(50vh - 43px);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  font-size: 120px;
+  font-weight: 200;
+  line-height: 120px;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+}
+
+.suspect-toggles {
+  position: absolute;
+  top: 65vh;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  width: 200px;
+}
+
+.suspect-toggles .toggle {
+  display: inline-block;
+  width: 48%;
+    margin: 0 auto;
+}
+
+.suspect-toggles .toggle i {
+  font-size: 36px;
+  line-height: 36px;
+  color: rgb(63,81,181);
+}

@@ -86,6 +86,7 @@ label.item.has-error .input-label {
   text-overflow: clip;
   left: 1px;
   border-left: 0;
+  border-right: 0;
 }
 
 .textarea {
@@ -138,4 +139,16 @@ label.item.disabled .input-label {
 label.item.disabled {
   border-left: 0 !important;
   padding-left: 16px !important;
+}
+
+.list {
+  margin-bottom: 0 !important;
+  padding-right: 2px;
+  padding-left: 0;
+}
+
+.suspect-title {
+  font-weight: bold;
+  padding: 5px 16px;
+  border-bottom: 2px solid black;
 }

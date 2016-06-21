@@ -1,7 +1,7 @@
 import { Controller } from '../entities';
 
 export default class MainCtrl extends Controller {
-  constructor($scope, $state, $ionicModal, SessionService, DangerService, $log, $ionicSlideBoxDelegate, uiGmapGoogleMapApi, NavigationService, PlatformService, MapService, $timeout, MarkerIconService) {
+  constructor($scope, $state, $ionicModal, SessionService, DangerService, $log, $ionicSlideBoxDelegate, uiGmapGoogleMapApi, NavigationService, PlatformService, MapService, $timeout, MarkerIconService, $ionicScrollDelegate) {
     super(...arguments);
     this.$state = $state;
     this.$log = $log;
@@ -31,7 +31,9 @@ export default class MainCtrl extends Controller {
     });
 
     this.openModal = () => {
-      $scope.modal.show();
+      $scope.modal.show().then(() => {
+        $ionicSlideBoxDelegate.update();
+      });
       $log.context().debug("Report Incident Form Opened");
     }
     this.closeModal = () => {
@@ -74,6 +76,11 @@ export default class MainCtrl extends Controller {
     this.dangerCols = {1: '#FFD1D1', 2: '#FF5B5B', 3: '#FF0000', info: '#F2FFAA'}
     this.event.others = [];
     this.currentOther = "";
+    this.suspectNumber = 1;
+    this.suspectRange = this.arrayify(this.suspectNumber);
+    this.suspectFocuses = {'arFocus': {0: false}, 'sgFocus': {0: false}, 'heFocus': {0: false}, 'sbFocus': {0: false},
+                           'srFocus': {0: false}, 'haFocus': {0: false}, 'scFocus': {0: false}, 'saFocus': {0: false},
+                           'swFocus': {0: false}, 'dfFocus': {0: false}, 'soFocus': {0: false}}
 
     this.otherEnter = () => {
       if (this.currentOther && this.currentOther.length > 0) {
@@ -84,6 +91,22 @@ export default class MainCtrl extends Controller {
 
     this.deleteChip = (index) => {
       this.event.others.splice(index,1);
+    }
+
+    this.adjustSuspects = (n) => {
+      if (this.suspectNumber != 0) {
+        this.suspectNumber += n;
+      }
+      this.suspectRange = this.arrayify(this.suspectNumber);
+      $ionicSlideBoxDelegate.update();
+    }
+
+    this.suspectFocusControl = (focus, index) => {
+      return this.suspectFocuses[focus][index];
+    }
+
+    this.suspectFocusToggle = (focus, index, bool) => {
+      this.suspectFocuses[focus][index] = bool;
     }
 
     this.SessionService = SessionService;
@@ -168,6 +191,10 @@ export default class MainCtrl extends Controller {
     }
   }
 
+  arrayify(num){
+    return new Array(num)
+  };
+
 }
 
-MainCtrl.$inject = ['$scope', '$state', '$ionicModal', 'SessionService', 'DangerService', '$log', '$ionicSlideBoxDelegate', 'uiGmapGoogleMapApi', 'NavigationService', 'PlatformService', 'MapService', '$timeout', 'MarkerIconService'];
+MainCtrl.$inject = ['$scope', '$state', '$ionicModal', 'SessionService', 'DangerService', '$log', '$ionicSlideBoxDelegate', 'uiGmapGoogleMapApi', 'NavigationService', 'PlatformService', 'MapService', '$timeout', 'MarkerIconService', '$ionicScrollDelegate'];

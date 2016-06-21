@@ -75,7 +75,7 @@
             </label>
             <div class="item chips item-input" ng-class="{'input-focused': ciFocus}">
               <div class="input-label" ng-class="{'input-focused': ciFocus}">Others Involved</div>
-              <input class="chip-input" ng-init="ciFocus = false" ng-focus="ciFocus = true" ng-blur="ciFocus = false" type="text" ng-model="vm.currentOther" ng-keyup="$event.keyCode == 13 && vm.otherEnter()"/>
+              <input class="chip-input" ng-init="ciFocus = false" ng-focus="ciFocus = true" ng-blur="ciFocus = false" type="text" ng-model="vm.currentOther" ng-keyup="$event.keyCode == 13 && vm.otherEnter()" placeholder="Use Return key to add"/>
               <div class="chip" ng-repeat="person in vm.event.others">
                 <img ng-src="{{person.img}}" alt="Person">
                 {{person.name}}
@@ -86,9 +86,75 @@
               <span class="input-label" ng-class="{'input-focused': deFocus}">Description</span>
               <textarea class="textarea" ng-init="deFocus = false" ng-focus="deFocus = true" ng-blur="deFocus = false" name="description" ng-model="vm.event.description" required></textarea>
             </label>
-            <!-- <div class="padding">
-              <button type="submit" class="button button-block button-stable" ng-click="vm.submit(vm.event)">Submit</button>
-            </div> -->
+          </div>
+        </ion-slide>
+        <ion-slide>
+          <div class="slide-box">
+            <div class="suspect-page-title">Number of Suspects</div>
+            <div class="suspect-number">{{vm.suspectNumber}}</div>
+            <div class="suspect-toggles">
+              <button type="button" class="toggle button-tranparent" ng-click="vm.adjustSuspects(-1)">
+                <i class="icon ion-minus-round"></i>
+              </button>
+              <button type="button" class="toggle button-tranparent" ng-click="vm.adjustSuspects(1)">
+                <i class="icon ion-plus-round"></i>
+              </button>
+            </div>
+          </div>
+        </ion-slide>
+        <ion-slide ng-repeat="suspect in vm.suspectRange track by $index">
+          <div class="list">
+            <div class='suspect-title'>Suspect {{$index + 1}}</div>
+            <label class="item item-input item-select" ng-class="{'input-focused': vm.suspectFocusControl('arFocus', $index)}">
+              <span class="input-label" ng-class="{'input-focused': vm.suspectFocusControl('arFocus', $index)}">Age Range</span>
+              <select ng-init="vm.suspectFocusToggle('arFocus', $index, false)" ng-focus="vm.suspectFocusToggle('arFocus', $index, true)" ng-blur="vm.suspectFocusToggle('arFocus', $index, false)" name="suspectAge" ng-model="vm.event.suspects[$index].age">
+                <option ng-repeat="age in vm.ageRanges">{{age}}</option>
+              </select>
+            </label>
+            <label class="item item-input item-select" ng-class="{'input-focused': vm.suspectFocusControl('sgFocus', $index)}">
+              <span class="input-label" ng-class="{'input-focused': vm.suspectFocusControl('sgFocus', $index)}">Gender</span>
+              <select ng-init="vm.suspectFocusToggle('sgFocus', $index, false)" ng-focus="vm.suspectFocusToggle('sgFocus', $index, true)" ng-blur="vm.suspectFocusToggle('sgFocus', $index, false)" name="suspectGender" ng-model="vm.event.suspects[$index].gender">
+                <option ng-repeat="gender in vm.genders">{{gender}}</option>
+              </select>
+            </label>
+            <label class="item item-input item-stacked-label" ng-class="{'input-focused': vm.suspectFocusControl('heFocus', $index)}">
+              <span class="input-label" ng-class="{'input-focused': vm.suspectFocusControl('heFocus', $index)}">Height</span>
+              <input type="text" ng-init="vm.suspectFocusToggle('heFocus', $index, false)" ng-focus="vm.suspectFocusToggle('heFocus', $index, true)" ng-blur="vm.suspectFocusToggle('heFocus', $index, false)" name="suspectHeight" ng-model="vm.event.suspects[$index].height">
+            </label>
+            <label class="item item-input item-select" ng-class="{'input-focused': vm.suspectFocusControl('sbFocus', $index)}">
+              <span class="input-label" ng-class="{'input-focused': vm.suspectFocusControl('sbFocus', $index)}">Build</span>
+              <select ng-init="vm.suspectFocusToggle('sbFocus', $index, false)" ng-focus="vm.suspectFocusToggle('sbFocus', $index, true)" ng-blur="vm.suspectFocusToggle('sbFocus', $index, false)" name="suspectBuild" ng-model="vm.event.suspects[$index].build">
+                <option ng-repeat="build in vm.builds">{{build}}</option>
+              </select>
+            </label>
+            <label class="item item-input item-stacked-label" ng-class="{'input-focused': vm.suspectFocusControl('srFocus', $index)}">
+              <span class="input-label" ng-class="{'input-focused': vm.suspectFocusControl('srFocus', $index)}">Race (Best Guess)</span>
+              <input type="text" ng-init="vm.suspectFocusToggle('srFocus', $index, false)" ng-focus="vm.suspectFocusToggle('srFocus', $index, true)" ng-blur="vm.suspectFocusToggle('srFocus', $index, false)" name="suspectRace" ng-model="vm.event.suspects[$index].race">
+            </label>
+            <label class="item item-input item-stacked-label" ng-class="{'input-focused': vm.suspectFocusControl('haFocus', $index)}">
+              <span class="input-label" ng-class="{'input-focused': vm.suspectFocusControl('haFocus', $index)}">Hair</span>
+              <input type="text" ng-init="vm.suspectFocusToggle('haFocus', $index, false)" ng-focus="vm.suspectFocusToggle('haFocus', $index, true)" ng-blur="vm.suspectFocusToggle('haFocus', $index, false)" name="suspectHair" ng-model="vm.event.suspects[$index].hair">
+            </label>
+            <label class="item item-input item-stacked-label" ng-class="{'input-focused': vm.suspectFocusControl('scFocus', $index)}">
+              <span class="input-label" ng-class="{'input-focused': vm.suspectFocusControl('scFocus', $index)}">Clothing</span>
+              <input type="text" ng-init="vm.suspectFocusToggle('scFocus', $index, false)" ng-focus="vm.suspectFocusToggle('scFocus', $index, true)" ng-blur="vm.suspectFocusToggle('scFocus', $index, false)" name="suspectClothing" ng-model="vm.event.suspects[$index].clothing">
+            </label>
+            <label class="item item-input item-stacked-label" ng-class="{'input-focused': vm.suspectFocusControl('saFocus', $index)}">
+              <span class="input-label" ng-class="{'input-focused': vm.suspectFocusControl('saFocus', $index)}">Accessories</span>
+              <input type="text" ng-init="vm.suspectFocusToggle('saFocus', $index, false)" ng-focus="vm.suspectFocusToggle('saFocus', $index, true)" ng-blur="vm.suspectFocusToggle('saFocus', $index, false)" name="suspectAccessories" ng-model="vm.event.suspects[$index].accessories">
+            </label>
+            <label class="item item-input item-stacked-label" ng-class="{'input-focused': vm.suspectFocusControl('swFocus', $index)}">
+              <span class="input-label" ng-class="{'input-focused': vm.suspectFocusControl('swFocus', $index)}">Weapon</span>
+              <input type="text" ng-init="vm.suspectFocusToggle('swFocus', $index, false)" ng-focus="vm.suspectFocusToggle('swFocus', $index, true)" ng-blur="vm.suspectFocusToggle('swFocus', $index, false)" name="suspectWeapon" ng-model="vm.event.suspects[$index].weapon">
+            </label>
+            <label class="item item-input item-stacked-label" ng-class="{'input-focused': vm.suspectFocusControl('dfFocus', $index)}">
+              <span class="input-label" ng-class="{'input-focused': vm.suspectFocusControl('dfFocus', $index)}">Distinguishing Features</span>
+              <input type="text" ng-init="vm.suspectFocusToggle('dfFocus', $index, false)" ng-focus="vm.suspectFocusToggle('dfFocus', $index, true)" ng-blur="vm.suspectFocusToggle('dfFocus', $index, false)" name="suspectFeatures" ng-model="vm.event.suspects[$index].features">
+            </label>
+            <label class="item item-input item-stacked-label" ng-class="{'input-focused': vm.suspectFocusControl('soFocus', $index)}">
+              <span class="input-label" ng-class="{'input-focused': vm.suspectFocusControl('soFocus', $index)}">Other</span>
+              <textarea type="text" ng-init="vm.suspectFocusToggle('soFocus', $index, false)" ng-focus="vm.suspectFocusToggle('soFocus', $index, true)" ng-blur="vm.suspectFocusToggle('soFocus', $index, false)" name="suspectOther" ng-model="vm.event.suspects[$index].other"></textarea>
+            </label>
           </div>
         </ion-slide>
       </ion-slide-box>
