@@ -1,9 +1,9 @@
 <ion-view view-title="Profile">
   <ion-nav-buttons side="secondary">
-    <button class="button button-clear switch-button" ng-click="vm.editMode = true" ng-if="!vm.editMode">
+    <button class="button button-clear switch-button modal-button" ng-click="vm.editMode = true" ng-if="!vm.editMode">
       Edit
     </button>
-    <button class="button button-clear switch-button" ng-click="vm.submitChanges(); vm.editMode = false" ng-if="vm.editMode">
+    <button class="button button-clear switch-button modal-button" ng-click="vm.submitChanges(); vm.editMode = false" ng-if="vm.editMode">
       Done
     </button>
   </ion-nav-buttons>
