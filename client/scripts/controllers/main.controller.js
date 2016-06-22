@@ -8,6 +8,14 @@ export default class MainCtrl extends Controller {
     this.$scope = $scope;
     this.$timeout = $timeout;
 
+    this.SessionService = SessionService;
+    this.DangerService = DangerService;
+    this.$ionicSlideBoxDelegate = $ionicSlideBoxDelegate;
+    this.dangerLevel = DangerService.dangerLevel;
+    this.decreaseDanger = DangerService.decreaseDanger;
+    this.resetSession = DangerService.resetSession;
+
+
     this.errorAlert = () => {
       var alertPopup = $ionicPopup.alert({
        title: 'Missing Required Fields',
@@ -69,10 +77,14 @@ export default class MainCtrl extends Controller {
         return {icon: 'ion-checkmark-round', func: this.submitSafeForm};
       }
     }
+
     this.saveDraft = () => {
+      console.log(this.event);
       this.closeModal();
     }
+
     this.submitSafeForm = () => {
+      console.log(this.event);
       this.safeForm.$setSubmitted();
       if (this.safeForm.$valid) {
         this.closeModal();
@@ -122,14 +134,6 @@ export default class MainCtrl extends Controller {
       this.suspectFocuses[focus][index] = bool;
     }
 
-
-    this.SessionService = SessionService;
-    this.DangerService = DangerService;
-    this.$ionicSlideBoxDelegate = $ionicSlideBoxDelegate;
-    this.dangerLevel = DangerService.dangerLevel;
-    this.decreaseDanger = DangerService.decreaseDanger;
-    this.resetSession = DangerService.resetSession;
-
     $scope.$watch(function(){
       return DangerService.getDangerLevel()
     },(newValue, oldValue)=>{
@@ -169,6 +173,7 @@ export default class MainCtrl extends Controller {
 
   markSafe() {
     if (this.SessionService.sessionStatus()) {
+      this.event.marker = this.NavigationService.marker;
       this.event.danger = this.dangers[this.DangerService.dangerLevel - 1];
       this.SessionService.finishSession();
       this.DangerService.setDangerLevel(0);

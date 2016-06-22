@@ -30,6 +30,7 @@ import MarkerIconService from '../services/markericon.service';
 import NavigationService from '../services/navigation.service';
 import DangerService from '../services/danger.service';
 import MarkerService from '../services/marker.service';
+import MeteorLiveMarkerService from '../services/livemarker.meteor.service';
 import DateFilter from '../filters/date.filter';
 import ChatCtrl from '../controllers/chat.controller';
 import InputDirective from '../directives/input.directive';
@@ -103,6 +104,7 @@ new Definer(App)
   .define(NavigationService)
   .define(MarkerService)
   .define(DangerService)
+  .define(MeteorLiveMarkerService)
   .define(DateFilter)
   .define(InputDirective)
   .define(ChatsCtrl)
