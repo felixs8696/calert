@@ -10,6 +10,7 @@ export default class MainCtrl extends Controller {
 
     this.SessionService = SessionService;
     this.DangerService = DangerService;
+    this.MapService = MapService;
     this.$ionicSlideBoxDelegate = $ionicSlideBoxDelegate;
     this.dangerLevel = DangerService.dangerLevel;
     this.decreaseDanger = DangerService.decreaseDanger;
@@ -23,7 +24,7 @@ export default class MainCtrl extends Controller {
       });
 
       alertPopup.then(function(res) {
-       console.log('Thank you for not eating my delicious ice cream cone');
+       $log.context('MainCtrl.errorAlert').warn('Missing Required Fields');
       });
     };
 
@@ -84,9 +85,30 @@ export default class MainCtrl extends Controller {
     }
 
     this.submitSafeForm = () => {
-      console.log(this.event);
       this.safeForm.$setSubmitted();
       if (this.safeForm.$valid) {
+        var dangerLevel = this.event.danger.split(' ')[0];
+        var newTimestamp = new Date(this.event.date.getFullYear(), this.event.date.getMonth(), this.event.date.getDate(), this.event.time.getHours(), this.event.time.getMinutes(), this.event.time.getSeconds(), 0);
+        var newMarker = {
+          id: this.MapService.map.markers.length,
+          icon: this.event.marker.getIcon(),
+          content: {
+            current: false,
+            title: this.event.title,
+            reporter: this.event.reporter,
+            danger: dangerLevel,
+            timestamp: newTimestamp,
+            people: this.event.others,
+            description: this.event.description,
+            place: this.event.place.geo.name,
+            address: this.event.address,
+            icon: this.event.place.geo.icon,
+            suspects: this.event.suspects
+          },
+          mapId: this.MapService.mapObj._id,
+          latitude: this.event.place.lat,
+          longitude: this.event.place.lng
+        };
         this.closeModal();
       } else {
         this.errorAlert();

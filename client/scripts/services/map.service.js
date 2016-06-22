@@ -67,7 +67,7 @@ export default class MapService extends Service {
             service.getDetails({placeId: geoPlace.place_id}, (place, status) => {
               if (status == google.maps.places.PlacesServiceStatus.OK) {
                 this.$log.context('MapService.geocodeLatLng').log("Lat: " + place.geometry.location.lat() + ", Lng: " + place.geometry.location.lng() + ", Addr: " + place.formatted_address);
-                callback({geo: results[1], lat: latitude, lng: longitude});
+                callback({geo: place, lat: latitude, lng: longitude});
               } else {
                 this.$log.context('MapService.geocodeLatLng').error(angular.toJson(status));
               }
