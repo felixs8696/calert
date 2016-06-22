@@ -37,7 +37,7 @@
           </select>
         </label>
         <label class="item item-input item-stacked-label" ng-class="{ 'has-error' : vm.profileForm.email.$invalid && vm.profileForm.$submitted, 'input-focused': emFocus, 'disabled': vm.profile.anonymous}">
-          <span class="input-label" ng-class="{'input-focused': emFocus}">Email</span>
+          <span class="input-label" ng-class="{'input-focused': emFocus}">Emails</span>
           <input type="email" ng-repeat="email in vm.profile.emails track by $index" ng-disabled="vm.profile.anonymous || !vm.editMode" ng-init="emFocus = false" ng-focus="emFocus = true" ng-blur="emFocus = false" name="email" ng-model="vm.profile.emails[$index].address">
         </label>
       </div>

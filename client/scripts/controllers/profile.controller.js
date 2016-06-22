@@ -10,15 +10,10 @@ export default class ProfileCtrl extends Controller {
     this.MarkerProfileService = MarkerProfileService;
     this.editMode = false;
 
-    this.profile = {
-      name: this.user.profile.name,
-      firstName: this.parseFirstName(),
-      lastName: this.parseLastName(),
-      age: this.user.profile.age,
-      gender: this.user.profile.gender,
-      university: this.user.profile.university,
-      emails: this.user.emails
-    };
+    this.profile = this.user.profile;
+    this.profile.emails = this.user.emails;
+    this.profile.firstName = this.parseFirstName();
+    this.profile.lastName = this.parseLastName();
   }
 
   parseFirstName() {
