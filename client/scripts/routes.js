@@ -94,6 +94,27 @@ export default class RoutesConfig extends Config {
       }
     })
 
+    .state('app.profile', {
+      url: '/profile',
+      views: {
+        'menuContent': {
+          templateUrl: 'client/templates/profile.html',
+          controller: 'ProfileCtrl as vm',
+          resolve: {
+            "currentUser": ["$meteor", function($meteor){
+              // Require the user to exist and have email validated to enter state
+              return $meteor.requireValidUser((user) => {
+                if (user.emails[0].verified) {
+                  return true;
+                }
+                return 'EMAIL_NOT_VALIDATED';
+              });
+            }]
+          }
+        }
+      }
+    })
+
     .state('app.chats', {
       url: '/chats',
       views: {

@@ -20,6 +20,7 @@ import LoginCtrl from '../controllers/login.controller';
 import MainCtrl from '../controllers/main.controller';
 import ChatsCtrl from '../controllers/chats.controller';
 import GlobalCtrl from '../controllers/global.controller';
+import ProfileCtrl from '../controllers/profile.controller';
 import PlatformService from '../services/platform.service';
 import LoggerService from '../services/logger.service';
 import MapService from '../services/map.service';
@@ -117,6 +118,7 @@ new Definer(App)
   .define(PlaylistCtrl)
   .define(MapCtrl)
   .define(GlobalCtrl)
+  .define(ProfileCtrl)
   .define(RoutesConfig);
 
 // Startup
