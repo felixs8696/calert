@@ -33,6 +33,8 @@ import DangerService from '../services/danger.service';
 import MarkerService from '../services/marker.service';
 import MeteorLiveMarkerService from '../services/livemarker.meteor.service';
 import MeteorMarkerService from '../services/marker.meteor.service';
+import FormConstantsService from '../services/form.constants.service';
+import MarkerProfileService from '../services/profile.meteor.service';
 import DateFilter from '../filters/date.filter';
 import ChatCtrl from '../controllers/chat.controller';
 import InputDirective from '../directives/input.directive';
@@ -108,6 +110,8 @@ new Definer(App)
   .define(DangerService)
   .define(MeteorLiveMarkerService)
   .define(MeteorMarkerService)
+  .define(FormConstantsService)
+  .define(MarkerProfileService)
   .define(DateFilter)
   .define(InputDirective)
   .define(ChatsCtrl)

@@ -1,0 +1,69 @@
+@import "colors";
+
+.name-title {
+  margin-top: 20px;
+  font-weight: 300;
+  text-align: center;
+  font-size: 30px;
+  color: white;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  text-shadow: 0 0 5px 3px rgba(0,0,0,.8);
+}
+
+.profile-display-container {
+  display: block;
+  width: 100%;
+  height: 30%;
+}
+
+.profile-background {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  padding: 20px 0 10px 0;
+  background: no-repeat center center;
+  background-size: cover;
+  position: relative;
+  -moz-box-shadow:    inset 0 0 5px rgba(0,0,0,0.2);
+  -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+  box-shadow:         inset 0 0 5px rgba(0,0,0,0.2);
+  z-index: 0;
+}
+
+.profile-background .overlay-box {
+  padding: 10% 0 10% 0;
+  background: no-repeat center center rgba(black, .4);
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.profile-pic-container {
+  border-radius: 50%;
+  overflow: hidden;
+  width: 20%;
+  height: 0;
+  padding-top: 20%;
+  min-width: 100px;
+  min-height: 100px;
+  margin: 10px auto 10px auto;
+  background: no-repeat center center;
+  background-size: cover;
+  box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+  -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+  -moz-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+}
+
+.switch-button {
+  transition: none;
+  -webkit-transition: none;
+}
+
+select[disabled] {
+  opacity: 0.4 !important;
+}

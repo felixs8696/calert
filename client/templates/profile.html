@@ -1,4 +1,46 @@
 <ion-view view-title="Profile">
+  <ion-nav-buttons side="secondary">
+    <button class="button button-clear switch-button" ng-click="vm.editMode = true" ng-if="!vm.editMode">
+      Edit
+    </button>
+    <button class="button button-clear switch-button" ng-click="vm.submitChanges(); vm.editMode = false" ng-if="vm.editMode">
+      Done
+    </button>
+  </ion-nav-buttons>
   <ion-content>
+    <div class="profile-display-container">
+      <div class="profile-background" style="background-image:url('{{vm.cover_pic}}')">
+        <div class="profile-pic-container" style="background-image:url('{{vm.pro_pic}}')"></div>
+        <div class="overlay-box"></div>
+        <p class="name-title">Felix Su</p>
+      </div>
+    </div>
+    <form name="vm.profileForm" novalidate="" ng-submit="vm.submitSafeForm()">
+      <div class="list">
+        <ion-toggle class="toggle-label" ng-model="vm.profile.anonymous" toggle-class="toggle-calm">Anonymous</ion-toggle>
+        <label class="item item-input item-stacked-label" ng-class="{ 'has-error' : vm.profileForm.firstName.$invalid && vm.profileForm.$submitted, 'input-focused': fnFocus, 'disabled': vm.profile.anonymous}">
+          <span class="input-label" ng-class="{'input-focused': fnFocus}">First Name</span>
+          <input type="text" ng-disabled="vm.profile.anonymous || !vm.editMode" ng-init="fnFocus = false" ng-focus="fnFocus = true" ng-blur="fnFocus = false" name="firstName" ng-model="vm.profile.firstName">
+        </label>
+        <label class="item item-input item-stacked-label" ng-class="{ 'has-error' : vm.profileForm.lastName.$invalid && vm.profileForm.$submitted, 'input-focused': lnFocus, 'disabled': vm.profile.anonymous}">
+          <span class="input-label" ng-class="{'input-focused': lnFocus}">Last Name</span>
+          <input type="text" ng-disabled="vm.profile.anonymous || !vm.editMode" ng-init="lnFocus = false" ng-focus="lnFocus = true" ng-blur="lnFocus = false" name="lastName" ng-model="vm.profile.lastName">
+        </label>
+        <label class="item item-input item-stacked-label" ng-class="{ 'has-error' : vm.profileForm.age.$invalid && vm.profileForm.$submitted, 'input-focused': agFocus}">
+          <span class="input-label" ng-class="{'input-focused': agFocus}">Age</span>
+          <input type="tel" ng-disabled="!vm.editMode" ng-init="agFocus = false" ng-focus="agFocus = true" ng-blur="agFocus = false" name="age" ng-model="vm.profile.age" required>
+        </label>
+        <label class="item item-input item-select" ng-class="{ 'has-error' : vm.profileForm.gender.$invalid && vm.profileForm.$submitted, 'input-focused': geFocus}">
+          <span class="input-label" ng-class="{'input-focused': geFocus}">Gender</span>
+          <select ng-disabled="!vm.editMode" ng-init="geFocus = false" ng-focus="geFocus = true" ng-blur="geFocus = false" name="gender" ng-model="vm.profile.gender" required>
+            <option ng-repeat="gender in vm.genders">{{gender}}</option>
+          </select>
+        </label>
+        <label class="item item-input item-stacked-label" ng-class="{ 'has-error' : vm.profileForm.email.$invalid && vm.profileForm.$submitted, 'input-focused': emFocus, 'disabled': vm.profile.anonymous}">
+          <span class="input-label" ng-class="{'input-focused': emFocus}">Email</span>
+          <input type="email" ng-repeat="email in vm.profile.emails track by $index" ng-disabled="vm.profile.anonymous || !vm.editMode" ng-init="emFocus = false" ng-focus="emFocus = true" ng-blur="emFocus = false" name="email" ng-model="vm.profile.emails[$index].address">
+        </label>
+      </div>
+    </form>
   </ion-content>
 </ion-view>
