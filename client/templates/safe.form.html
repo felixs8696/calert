@@ -77,8 +77,10 @@
               <div class="input-label" ng-class="{'input-focused': ciFocus}">Others Involved</div>
               <input class="chip-input" ng-init="ciFocus = false" ng-focus="ciFocus = true" ng-blur="ciFocus = false" type="text" ng-model="vm.currentOther" ng-keyup="$event.keyCode == 13 && vm.otherEnter()" placeholder="Use Return key to add"/>
               <div class="chip" ng-repeat="person in vm.event.others">
-                <img ng-src="{{person.img}}" alt="Person">
-                {{person.name}}
+                <!-- TODO: Change this to person.img when DB returns friend object-->
+                <img ng-src="http://www.w3schools.com/howto/img_avatar.png" alt="Person">
+                <!-- TODO: Change this to person.name when returns friend object-->
+                {{person}}
                 <button type="button" class="closebtn" ng-click="vm.deleteChip($index)">&times;</button>
               </div>
             </div>

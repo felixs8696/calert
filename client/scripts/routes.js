@@ -51,7 +51,7 @@ export default class RoutesConfig extends Config {
                 var deferred = $q.defer();
                 $meteor.waitForUser().then((user) => {
                   MeteorMapService.getMap(user.profile.university, (map) => {
-                    MapService.initMap(map);
+                    if (!MapService.map) MapService.initMap(map);
                     deferred.resolve(map);
                   })
                 });

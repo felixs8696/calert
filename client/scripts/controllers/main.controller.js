@@ -1,7 +1,7 @@
 import { Controller } from '../entities';
 
 export default class MainCtrl extends Controller {
-  constructor($scope, $state, $ionicModal, SessionService, DangerService, $log, $ionicSlideBoxDelegate, uiGmapGoogleMapApi, NavigationService, PlatformService, MapService, $timeout, MarkerIconService, $ionicScrollDelegate, $ionicPopup) {
+  constructor($scope, $state, $ionicModal, SessionService, DangerService, $log, $ionicSlideBoxDelegate, uiGmapGoogleMapApi, NavigationService, PlatformService, MapService, $timeout, MarkerIconService, $ionicScrollDelegate, $ionicPopup, MeteorMarkerService) {
     super(...arguments);
     this.$state = $state;
     this.$log = $log;
@@ -11,6 +11,7 @@ export default class MainCtrl extends Controller {
     this.SessionService = SessionService;
     this.DangerService = DangerService;
     this.MapService = MapService;
+    this.MarkerIconService = MarkerIconService;
     this.$ionicSlideBoxDelegate = $ionicSlideBoxDelegate;
     this.dangerLevel = DangerService.dangerLevel;
     this.decreaseDanger = DangerService.decreaseDanger;
@@ -89,9 +90,14 @@ export default class MainCtrl extends Controller {
       if (this.safeForm.$valid) {
         var dangerLevel = this.event.danger.split(' ')[0];
         var newTimestamp = new Date(this.event.date.getFullYear(), this.event.date.getMonth(), this.event.date.getDate(), this.event.time.getHours(), this.event.time.getMinutes(), this.event.time.getSeconds(), 0);
+        if (this.event.anonymous == true) {
+          this.event.reporter.firstName = undefined;
+          this.event.reporter.lastName = undefined;
+          this.event.reporter.email = undefined;
+        }
         var newMarker = {
           id: this.MapService.map.markers.length,
-          icon: this.event.marker.getIcon(),
+          icon: this.MarkerIconService.getInfoMarkerIcon(),
           content: {
             current: false,
             title: this.event.title,
@@ -109,6 +115,10 @@ export default class MainCtrl extends Controller {
           latitude: this.event.place.lat,
           longitude: this.event.place.lng
         };
+        console.log(newMarker);
+        MeteorMarkerService.addMarker(newMarker, (recMarker) => {
+          this.$log.context().debug('Added to Markers collection in DB: '+ recMarker);
+        })
         this.closeModal();
       } else {
         this.errorAlert();
@@ -131,7 +141,7 @@ export default class MainCtrl extends Controller {
 
     this.otherEnter = () => {
       if (this.currentOther && this.currentOther.length > 0) {
-        this.event.others.push({img: 'http://www.w3schools.com/howto/img_avatar.png', name: this.currentOther});
+        this.event.others.push(this.currentOther);
         this.currentOther = "";
       }
     }
@@ -238,4 +248,4 @@ export default class MainCtrl extends Controller {
 
 }
 
-MainCtrl.$inject = ['$scope', '$state', '$ionicModal', 'SessionService', 'DangerService', '$log', '$ionicSlideBoxDelegate', 'uiGmapGoogleMapApi', 'NavigationService', 'PlatformService', 'MapService', '$timeout', 'MarkerIconService', '$ionicScrollDelegate', '$ionicPopup'];
+MainCtrl.$inject = ['$scope', '$state', '$ionicModal', 'SessionService', 'DangerService', '$log', '$ionicSlideBoxDelegate', 'uiGmapGoogleMapApi', 'NavigationService', 'PlatformService', 'MapService', '$timeout', 'MarkerIconService', '$ionicScrollDelegate', '$ionicPopup', 'MeteorMarkerService'];
