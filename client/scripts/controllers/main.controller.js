@@ -17,7 +17,6 @@ export default class MainCtrl extends Controller {
     this.decreaseDanger = DangerService.decreaseDanger;
     this.resetSession = DangerService.resetSession;
 
-
     this.errorAlert = () => {
       var alertPopup = $ionicPopup.alert({
        title: 'Missing Required Fields',
